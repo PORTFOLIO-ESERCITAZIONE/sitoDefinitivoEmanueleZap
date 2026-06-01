@@ -1,6 +1,13 @@
 /* =============================================
    VARIABILI & BASE
    ============================================= */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+/* FIX LATERALE */
+
+
 :root {
   --navy:       #1a2744;
   --navy-light: #253a6b;
