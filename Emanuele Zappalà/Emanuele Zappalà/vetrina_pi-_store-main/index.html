@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emanuele Zappalà | Biologo Nutrizionista</title>
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+  rel="stylesheet"
+  />
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar navbar-expand-lg sticky-top shadow-lg" id="mainNav">
+    <div class="container-md">
+      <a class="navbar-brand" href="#">
+        <span class="brand-name">E. Zappalà</span>
+        <span class="brand-subtitle">Biologo Nutrizionista</span>
+      </a>
+      
+      <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarMain"
+      aria-controls="navbarMain"
+      aria-expanded="false"
+      aria-label="Apri menu"
+      >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav navbar-nav-center">
+        <li class="nav-item">
+          <a class="nav-link" href="#chi-sono">Chi sono</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#ebook">Ebook</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#metodo">Il mio metodo</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#risultati">Risultati reali</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#pazienti">I miei clienti</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contatti">Contatti</a>
+        </li>
+        <li class="nav-item ms-2">
+          <a
+          href="#contatti"
+          class="btn btn-gold btn-sm"
+          style="font-size: 0.8rem; padding: 0.35rem 0.9rem"
+          >Consulenza</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero" id="home">
+  <div class="hero-overlay"></div>
+  <div class="container h-100">
+    <div class="row align-items-center h-100 py-5">
+      <div class="col-lg-7">
+        <p class="hero-eyebrow">
+          Biologo Nutrizionista · Approccio Scientifico
+        </p>
+        <h1 class="hero-title">
+          Recupera la tua salute.<br /><em>Per sempre.</em>
+        </h1>
+        <p class="hero-subtitle">
+          Un percorso personalizzato che va oltre la dieta: riequilibrio
+          metabolico, intestinale e ormonale per risultati concreti e
+          duraturi.
+        </p>
+        <div class="hero-actions">
+          <a href="#contatti" class="btn btn-gold"
+          >Prenota una consulenza</a
+          >
+          <a href="#ebook" class="btn btn-outline-hero">Scopri gli ebook</a>
+        </div>
+      </div>
+      
+      <!--==========INIZIO CAROUSEL==========-->
+      <div class="col-lg-5 d-none d-lg-flex justify-content-end">
+        <div class="hero-photo-frame">
+          <div
+          id="ebookCarousel"
+          class="carousel slide carousel-fade"
+          data-bs-ride="carousel"
+          data-bs-interval="3500"
+          >
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img
+              src="./img/photo_1.img.jpg"
+              class="carousel-img"
+              alt="Slide 1"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+              src="./img/photo_2.img.jpg"
+              class="carousel-img"
+              alt="Slide 2"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+              src="./img/photo_3.img.jpg"
+              class="carousel-img"
+              alt="Slide 3"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+              src="./img/photo_4.img.jpg"
+              class="carousel-img"
+              alt="Slide 4"
+              />
+            </div>
+          </div>
+          <div class="carousel-overlay"></div>
+          <div class="carousel-progress-bar" id="carouselProgress"></div>
+          
+          <div class="carousel-dot-wrap">
+            <button
+            class="c-dot active"
+            data-bs-target="#ebookCarousel"
+            data-bs-slide-to="0"
+            ></button>
+            <button
+            class="c-dot"
+            data-bs-target="#ebookCarousel"
+            data-bs-slide-to="1"
+            ></button>
+            <button
+            class="c-dot"
+            data-bs-target="#ebookCarousel"
+            data-bs-slide-to="2"
+            ></button>
+            <button
+            class="c-dot"
+            data-bs-target="#ebookCarousel"
+            data-bs-slide-to="3"
+            ></button>
+          </div>
+          
+          <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#ebookCarousel"
+          data-bs-slide="prev"
+          >
+          <span
+          class="carousel-control-prev-icon"
+          aria-hidden="true"
+          ></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        
+        <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#ebookCarousel"
+        data-bs-slide="next"
+        >
+        <span
+        class="carousel-control-next-icon"
+        aria-hidden="true"
+        ></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  <!--==========FINE CAROUSEL==========-->
+</div>
+</div>
+</div>
+</section>
+
+<!-- ========== CHI SONO ========== -->
+<section class="section-white" id="chi-sono">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-5">
+        <div class="about-photo-frame">
+          <img src="img/chi sono.webp" alt="Emanuele Zappalà" />
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <p class="section-eyebrow">Chi sono</p>
+        <h2 class="section-title">Emanuele Zappalà</h2>
+        <p class="section-subtitle">
+          Biologo specializzato in nutrizione umana
+        </p>
+        <p class="section-text">
+          Sono un biologo con una specializzazione in nutrizione umana. La
+          mia formazione accademica mi ha fornito gli strumenti scientifici
+          per affrontare in modo rigoroso le problematiche legate
+          all'alimentazione e alla salute metabolica.
+        </p>
+        <p class="section-text">
+          Il mio obiettivo non è semplicemente prescrivere una dieta, ma
+          accompagnare ogni paziente in un percorso di consapevolezza
+          alimentare strutturato, progressivo e privo di estremismi —
+          analizzando le cause, non solo i sintomi.
+        </p>
+        <div class="about-badges">
+          <span class="badge-pill">Biologo Nutrizionista</span>
+          <span class="badge-pill">Nutrizione Clinica</span>
+          <span class="badge-pill">Metabolismo</span>
+          <span class="badge-pill">Microbiota Intestinale</span>
+          <span class="badge-pill">Riequilibrio Ormonale</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== EBOOK ========== -->
+<section class="section-navy" id="ebook">
+  <div class="container">
+    <div class="row align-items-center g-5 justify-content-center">
+      <div
+      class="col-lg-4 col-md-5 text-center d-flex justify-content-center align-items-center"
+      >
+      <div class="ebook-book-showcase">
+        <div class="ebook-book-shadow"></div>
+        <img
+        src="img/ebook1.img.jpg"
+        alt="Il Metodo Zappalà"
+        class="ebook-book-showcase-img"
+        />
+      </div>
+    </div>
+    
+    <div class="col-lg-5 col-md-7">
+      <p class="section-eyebrow-light">Ebook</p>
+      <h2 class="section-title-light">Il Metodo Zappalà</h2>
+      <p
+      class="section-text"
+      style="color: rgba(255, 255, 255, 0.65); margin-bottom: 1.5rem"
+      >
+      La guida scientifica per trasformare il corpo attraverso la
+      nutrizione. Piani alimentari, strategie di body recomposition e
+      protocolli ormonali — tutto quello che ho perfezionato in anni di
+      pratica clinica e sportiva.
+    </p>
+    <ul class="ebook-features-list">
+      <li>Piano alimentare completo per massa e definizione</li>
+      <li>Protocolli per il microbiota intestinale</li>
+      <li>Guida alla supplementazione scientifica</li>
+      <li>Tabelle macro e calorie personalizzabili</li>
+    </ul>
+    <div class="ebook-cta-row">
+      <a href="https://emanuelezap.myshopify.com/" class="btn btn-gold btn-lg">Acquista ora</a>
+      <a
+      href="./ebook.html.html"
+      target="_blank"
+      class="btn btn-outline-hero"
+      >Visita lo Store</a
+      >
+    </div>
+    <p class="ebook-shopify-note">
+      Acquisto sicuro tramite Shopify &middot; Download immediato
+    </p>
+  </div>
+</button>
+
+<div class="ebook-coming">
+  <span>Altri ebook in arrivo</span>
+  <span class="ebook-coming-dot">&middot;</span>
+  <a
+  href="https://www.instagram.com/emanuelezap?igsh=cXkzcjR1ZDFlbzEx"
+  target="_blank"
+  rel="noopener"
+  >Seguimi per le anteprime</a
+  >
+</div>
+</div>
+</section>
+
+<!-- ========== IL MIO METODO ========== -->
+<section class="section-light" id="metodo">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="section-eyebrow">Il mio metodo</p>
+      <h2 class="section-title">Un approccio a 360°</h2>
+      <p class="section-intro">
+        Non mi fermo al sintomo: analizzo le cause, rielaboro le abitudini e
+        costruisco un percorso sostenibile nel tempo senza estremismi.
+      </p>
+    </div>
+    <div class="row g-4 align-items-start">
+      <div class="col-lg-6 d-flex flex-column gap-4">
+        <div class="method-card">
+          <div class="method-num">01</div>
+          <h3 class="method-title">Analisi Approfondita</h3>
+          <p class="method-text">
+            Ogni percorso inizia con un questionario dettagliato e una
+            valutazione clinica per comprendere la storia metabolica,
+            ormonale e intestinale del paziente.
+          </p>
+        </div>
+        <div class="method-card method-card--dark">
+          <div class="method-num">02</div>
+          <h3 class="method-title">Riequilibrio Metabolico</h3>
+          <p class="method-text">
+            Intervengo su metabolismo, microbiota intestinale e asse
+            ormonale con un piano nutrizionale scientifico, progressivo e
+            completamente personalizzato.
+          </p>
+        </div>
+        <div class="method-card">
+          <div class="method-num">03</div>
+          <h3 class="method-title">Supporto Continuo</h3>
+          <p class="method-text">
+            Seguo ogni paziente con monitoraggi periodici, aggiustamenti del
+            piano e supporto diretto per garantire risultati stabili e
+            duraturi nel tempo.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <img
+        src="img/il mio metodo.webp"
+        alt="Il mio metodo"
+        class="img-fluid rounded-3"
+        style="width: 100%; height: 100%; object-fit: cover"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== RISULTATI REALI ========== -->
+<section class="section-navy" id="risultati">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="section-eyebrow-light">Risultati reali</p>
+      <h2 class="section-title-light">Numeri che parlano chiaro</h2>
+    </div>
+    <div class="row g-4 text-center justify-content-center">
+      <div class="col-6 col-lg-3">
+        <div class="stat-block">
+          <span class="stat-number" data-count="200" data-suffix="+"
+          >0</span
+          >
+          <span class="stat-label">Clienti seguiti</span>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="stat-block">
+          <span class="stat-number" data-count="5" data-suffix="+">0</span>
+          <span class="stat-label">Anni di esperienza</span>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="stat-block">
+          <span class="stat-number" data-count="95" data-suffix="%">0</span>
+          <span class="stat-label">Tasso di soddisfazione</span>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="stat-block">
+          <span class="stat-number" data-count="360" data-suffix="°"
+          >0</span
+          >
+          <span class="stat-label">Approccio integrato</span>
+        </div>
+      </div>
+    </div>
+    <div class="results-quote">
+      <p>
+        "I miei clienti non imparano solo a seguire una dieta — imparano a
+        prendersi cura di se stessi per sempre."
+      </p>
+      <cite>— Emanuele Zappalà</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ========== I MIEI FEEDBACK ========== -->
+<section class="section-white" id="pazienti">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="section-eyebrow">I miei clienti</p>
+      <h2 class="section-title">Cosa dicono di me</h2>
+      <p class="section-intro">
+        Persone reali, risultati reali. Ogni percorso è unico, ogni storia è
+        diversa.
+      </p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "Dopo anni di diete fallite, con Emanuele ho finalmente capito
+            il mio corpo. Ho perso 12 kg in 4 mesi senza mai sentirmi a
+            dieta."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">MR</div>
+            <div>
+              <strong>Maria R.</strong>
+              <span>Insegnante, 38 anni</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testimonial-card testimonial-card--dark">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "Un approccio completamente diverso da tutto quello che avevo
+            provato. Finalmente mi sento energico e ho risolto i problemi
+            digestivi che avevo da anni."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">LB</div>
+            <div>
+              <strong>Luca B.</strong>
+              <span>Ingegnere, 45 anni</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "Non solo ho raggiunto il peso forma, ma ho imparato a gestire
+            la mia alimentazione in modo autonomo. Il supporto costante fa
+            davvero la differenza."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">SM</div>
+            <div>
+              <strong>Sara M.</strong>
+              <span>Avvocatessa, 32 anni</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== INSTAGRAM ========== -->
+<section class="section-white" id="instagram">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-5">
+        <p class="section-eyebrow">Instagram</p>
+        <h2 class="section-title">@emanuelezap</h2>
+        <p class="section-text">
+          Contenuti su nutrizione sportiva, body recomposition e mindset.
+          Anteprime degli ebook, consigli pratici e aggiornamenti dal mio
+          percorso.
+        </p>
+        <a
+        href="https://www.instagram.com/emanuelezap?igsh=cXkzcjR1ZDFlbzEx"
+        class="btn btn-navy mt-2"
+        target="_blank"
+        rel="noopener"
+        >
+        Seguimi su Instagram
+      </a>
+    </div>
+    <div class="col-lg-7">
+      <!-- Sostituisci le immagini con screenshot reali dei tuoi post Instagram -->
+      <div class="insta-grid">
+        <a
+        href="https://www.instagram.com/emanuelezap?igsh=cXkzcjR1ZDFlbzEx"
+        class="insta-cell"
+        target="_blank"
+        rel="noopener"
+        >
+        <img src="./img/instagram1.img" alt="Post Instagram" />
+        <div class="insta-overlay"></div>
+      </a>
+      <a
+      href="https://www.instagram.com/emanuelezap?igsh=cXkzcjR1ZDFlbzEx"
+      class="insta-cell"
+      target="_blank"
+      rel="noopener"
+      >
+      <img src="./img/instagram2.img" alt="Post Instagram" />
+      <div class="insta-overlay"></div>
+    </a>
+    <a
+    href="https://www.instagram.com/emanuelezap?igsh=cXkzcjR1ZDFlbzEx"
+    class="insta-cell"
+    target="_blank"
+    rel="noopener"
+    >
+    <img src="./img/instagram3.img" alt="Post Instagram" />
+    <div class="insta-overlay"></div>
+  </a>
+  <a
+  href="https://www.instagram.com/emanuelezap?igsh=cXkzcjR1ZDFlbzEx"
+  class="insta-cell"
+  target="_blank"
+  rel="noopener"
+  >
+  <img src="./img/instagram4.img" alt="Post Instagram" />
+  <div class="insta-overlay"></div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ========== CONTATTI ========== -->
+<section class="section-light" id="contatti">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 text-center">
+        <p class="section-eyebrow">Contatti</p>
+        <h2 class="section-title">Inizia il tuo percorso</h2>
+        <p class="section-intro mb-5">
+          Prenota una consulenza conoscitiva gratuita di 10 minuti.
+          Parleremo della tua situazione e capiremo insieme il percorso più
+          adatto a te.
+        </p>
+        <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+          <a
+          href="https://calendly.com/emanuelezpnutrition/20min"
+          class="btn btn-navy btn-lg"
+          target="_blank"
+          rel="noopener"
+          >
+          Prenota su Calendly
+        </a>
+        <a
+        href="https://mail.google.com/mail/?view=cm&to=emanuelezpnutrition@gmail.com"
+        class="btn btn-outline-navy btn-lg"
+        target="_blank"
+        rel="noopener"
+        >
+        Scrivimi una mail
+      </a>
+    </div>
+    
+    <!-- Calendly inline widget -->
+    <div class="calendly-inline-widget mb-5" data-url="https://calendly.com/emanuelezpnutrition/20min?hide_gdpr_banner=1" style="min-width:320px;height:700px;border-radius:12px;overflow:hidden;"></div>
+    
+    <div class="contact-pills">
+      <div class="contact-pill">
+        <span class="contact-label">Email</span>
+        <a href="mailto:info@emanuelezappala.it"
+        >emanuelezpnutrition@gmail.com</a
+        >
+      </div>
+      <div class="contact-pill">
+        <span class="contact-label">Instagram</span>
+        <a
+        href="https://www.instagram.com/emanuelezap?igsh=cXkzcjR1ZDFlbzEx"
+        target="_blank"
+        rel="noopener"
+        >@emanuelezap</a
+        >
+      </div>
+    </div>
+    
+    <div class="d-flex justify-content-center gap-4 mt-4">
+      <a
+      href="mailto:emanuelezpnutrition@gmail.com"
+      class="text-decoration-none"
+      title="Email"
+      >
+      <i class="bi bi-envelope-fill fs-2 text-primary"></i>
+    </a>
+    
+    <a
+    href="https://www.instagram.com/emanuelezap?igsh=cXkzcjR1ZDF1bzEx"
+    target="_blank"
+    rel="noopener"
+    class="text-decoration-none"
+    title="Instagram"
+    >
+    <i class="bi bi-instagram fs-2 text-danger"></i>
+  </a>
+  
+  <a
+  href="https://www.youtube.com/@Emanuelezap"
+  target="_blank"
+  rel="noopener"
+  class="text-decoration-none"
+  title="YouTube"
+  >
+  <i class="bi bi-youtube fs-2 text-danger"></i>
+</a>
+
+<a
+href="IL_TUO_LINK_SHOPIFY"
+target="_blank"
+rel="noopener"
+class="text-decoration-none"
+title="Shopify"
+>
+<i class="bi bi-bag-check-fill fs-2 text-info"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="row align-items-center gy-3">
+      <div class="col-md-4">
+        <span class="footer-brand">E. Zappalà</span>
+        <span class="footer-subtitle">Biologo Nutrizionista</span>
+      </div>
+      <div class="col-md-4 text-center">
+        <p class="footer-copy">
+          &copy; 2026 Emanuele Zappalà. Tutti i diritti riservati.<br>
+          C.F. e P.I. _________________<br>
+        </p>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <a href="cgv.html" class="footer-link">Condizioni di Vendita</a>
+        <a href="privacy.html" class="footer-link ms-3">Privacy Policy</a>
+        <a href="cookie-policy.html" class="footer-link ms-3">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== COOKIE BANNER ========== -->
+<div id="cookieBanner" class="cookie-banner" style="display:none;" role="dialog" aria-live="polite" aria-label="Consenso cookie">
+  <div class="cookie-banner-inner">
+    <div class="cookie-banner-text">
+      <strong class="cookie-banner-title">Questo sito utilizza i cookie</strong>
+      <p>Utilizziamo cookie tecnici necessari al funzionamento e, previo consenso, cookie di profilazione. Consulta la <a href="cookie-policy.html" class="cookie-link">Cookie Policy</a> e la <a href="privacy.html" class="cookie-link">Privacy Policy</a>.</p>
+    </div>
+    <div class="cookie-banner-actions">
+      <button id="cookieCustomize" class="btn-cookie-eq">Personalizza</button>
+      <button id="cookieReject"    class="btn-cookie-eq">Rifiuta</button>
+      <button id="cookieAccept"    class="btn-cookie-eq">Accetta</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL PREFERENZE COOKIE ========== -->
+<div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content cookie-modal-content">
+      <div class="modal-header cookie-modal-header" style="border-bottom:1px solid rgba(255,255,255,.1);padding:1.4rem 1.75rem;">
+        <h5 class="modal-title cookie-modal-title" id="cookieModalLabel">Preferenze cookie</h5>
+      </div>
+      <div class="modal-body cookie-modal-body">
+        <p class="cookie-modal-intro">Scegli quali cookie accettare. I cookie tecnici e analitici (GA4 anonimizzato) sono sempre attivi: necessari al funzionamento del sito e alle statistiche aggregate anonime.</p>
+        
+        <div class="cookie-pref-row">
+          <div class="cookie-pref-info">
+            <span class="cookie-pref-name">Cookie Tecnici &amp; Analitici</span>
+            <span class="cookie-pref-desc">Necessari per navigazione, sicurezza e statistiche anonime (GA4 con IP anonimizzato). Non identificano l'utente.</span>
+          </div>
+          <span class="cookie-always-on">Sempre attivi</span>
+        </div>
+        
+        <div class="cookie-pref-row">
+          <div class="cookie-pref-info">
+            <span class="cookie-pref-name">Cookie di Profilazione</span>
+            <span class="cookie-pref-desc">Usati per annunci personalizzati su piattaforme esterne (es. Meta Pixel, Google Ads). Disattivati di default — richiedono il tuo consenso esplicito.</span>
+          </div>
+          <label class="cookie-toggle" aria-label="Attiva cookie di profilazione">
+            <input type="checkbox" id="toggleProfiling">
+            <span class="cookie-toggle-track"><span class="cookie-toggle-thumb"></span></span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer cookie-modal-footer">
+        <button type="button" id="cookieModalReject" class="btn-cookie-modal-eq">Rifiuta tutto</button>
+        <button type="button" id="cookieSavePrefs"   class="btn-cookie-modal-eq">Salva preferenze</button>
+        <button type="button" id="cookieModalAccept" class="btn-cookie-modal-eq">Accetta tutto</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script.js"></script>
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+  /* Bottone test cookie — rimuovere prima del lancio */
+  var resetBtn = document.getElementById('resetCookieTest');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      localStorage.removeItem('cookiePrefs');
+      location.reload();
+    });
+  }
+</script>
+</body>
+</html>
