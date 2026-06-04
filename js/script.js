@@ -1,210 +1,114 @@
-/* =============================================
-   HAMBURGER — chiudi il menu al click su un link (mobile)
-   ============================================= */
-document.querySelectorAll('.navbar-nav .nav-link').forEach(function (link) {
-  link.addEventListener('click', function () {
-    const navbarCollapse = document.getElementById('navbarMain');
-    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-      const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
-      if (bsCollapse) bsCollapse.hide();
+window.addEventListener("load", () => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ==============================================================
+       1. CUSTOM CURSOR & MAGNETISMO
+       ============================================================== */
+    const cursor = document.createElement('div');
+    cursor.classList.add('custom-cursor');
+    document.body.appendChild(cursor);
+
+    window.addEventListener('mousemove', (e) => {
+        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
+    });
+
+    document.querySelectorAll('a, button, .btn').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+    });
+
+    document.querySelectorAll('.btn-gold, .btn-navy').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
+            const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
+            gsap.to(btn, { x: x, y: y, duration: 0.3, ease: "power2.out" });
+        });
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.3)" });
+        });
+    });
+
+    /* ==============================================================
+       2. ANIMAZIONE HERO
+       ============================================================== */
+    gsap.set(".gsap-hero-item > *", { autoAlpha: 1 });
+
+    const tlHero = gsap.timeline();
+    
+    tlHero.from(".hero-overlay", { scale: 1.1, opacity: 0, duration: 1, ease: "power2.out" })
+          .from(".hero-eyebrow, .hero-title, .hero-subtitle, .hero-actions", {
+              y: 30,
+              opacity: 0,
+              duration: 0.8,
+              stagger: 0.2, 
+              ease: "power2.out"
+          }, "-=0.5");
+
+    /* ==============================================================
+       3. SCROLL ORIZZONTALE (SEZIONE METODO)
+       ============================================================== */
+    const horizontalWrapper = document.querySelector(".horizontal-wrapper");
+    const panels = gsap.utils.toArray(".horizontal-panel");
+    
+    if (horizontalWrapper && panels.length > 0) {
+        let getScrollAmount = () => horizontalWrapper.scrollWidth - window.innerWidth;
+
+        gsap.to(panels, {
+            x: () => -getScrollAmount(),
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".metodo-section",
+                pin: true,
+                scrub: 1,
+                end: () => "+=" + getScrollAmount(),
+                invalidateOnRefresh: true
+            }
+        });
     }
-  });
+
+    /* ==============================================================
+       4. ANIMAZIONI ALLO SCROLL
+       ============================================================== */
+    gsap.set(".gsap-fade", { autoAlpha: 1 });
+    
+    ScrollTrigger.batch(".gsap-fade", {
+        interval: 0.1, 
+        batchMax: 3,   
+        onEnter: batch => gsap.from(batch, {
+            opacity: 0,
+            y: 40,
+            duration: 0.8,
+            stagger: 0.15, 
+            ease: "power2.out"
+        }),
+        start: "top 85%"
+    });
+
+    /* ==============================================================
+       5. CONTATORI ANIMATI
+       ============================================================== */
+    const stats = document.querySelectorAll('.stat-number');
+    stats.forEach(stat => {
+        const target = parseFloat(stat.getAttribute('data-count'));
+        const suffix = stat.getAttribute('data-suffix') || '';
+
+        gsap.set(stat.closest('.gsap-stat'), { autoAlpha: 1 });
+
+        ScrollTrigger.create({
+            trigger: stat.closest('.gsap-stat'),
+            start: "top 80%",
+            once: true,
+            onEnter: () => {
+                let obj = { val: 0 };
+                gsap.from(stat.closest('.gsap-stat'), { y: 40, opacity: 0, duration: 0.8, ease: "power2.out" });
+                gsap.to(obj, {
+                    val: target,
+                    duration: 2.5,
+                    ease: "power3.out",
+                    onUpdate: () => { stat.innerText = Math.floor(obj.val) + suffix; }
+                });
+            }
+        });
+    });
 });
-
-/* =============================================
-   NAVBAR — ombra allo scroll
-   ============================================= */
-const mainNav = document.getElementById('mainNav');
-if (mainNav) {
-  window.addEventListener('scroll', function () {
-    mainNav.classList.toggle('scrolled', window.scrollY > 20);
-  }, { passive: true });
-}
-
-/* =============================================
-   COUNT-UP — animazione numeri statistiche
-   ============================================= */
-(function () {
-  const counters = document.querySelectorAll('.stat-number[data-count]');
-  let animated = false;
-
-  function animateCounters() {
-    counters.forEach(function (el) {
-      const target = parseInt(el.getAttribute('data-count'), 10);
-      if (!Number.isFinite(target) || target < 0) return;
-      const suffix   = el.getAttribute('data-suffix') || '';
-      const duration = target >= 100 ? 1800 : 1200;
-      let start      = null;
-
-      function step(timestamp) {
-        if (!start) start = timestamp;
-        const progress = Math.min((timestamp - start) / duration, 1);
-        const eased    = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.floor(eased * target) + suffix;
-        if (progress < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    });
-  }
-
-  const observer = new IntersectionObserver(function (entries) {
-    if (!animated && entries[0].isIntersecting) {
-      animated = true;
-      animateCounters();
-    }
-  }, { threshold: 0.3 });
-
-  const section = document.getElementById('risultati');
-  if (section) observer.observe(section);
-})();
-
-/* =============================================
-   CAROUSEL — dot, progress bar, pausa su hover
-   ============================================= */
-(function () {
-  const carousel = document.getElementById('ebookCarousel');
-  if (!carousel) return;
-
-  /* sincronizza dot custom */
-  carousel.addEventListener('slid.bs.carousel', function (e) {
-    document.querySelectorAll('.c-dot').forEach(function (dot, i) {
-      dot.classList.toggle('active', i === e.to);
-    });
-  });
-
-  /* progress bar */
-  const progressBar = document.getElementById('carouselProgress');
-  if (progressBar) {
-    function resetProgress() {
-      progressBar.classList.remove('animating');
-      void progressBar.offsetWidth; /* forza reflow */
-      progressBar.classList.add('animating');
-    }
-    carousel.addEventListener('slide.bs.carousel', resetProgress);
-    resetProgress();
-
-    /* pausa su hover: ferma carousel e progress bar */
-    carousel.addEventListener('mouseenter', function () {
-      progressBar.style.animationPlayState = 'paused';
-      bootstrap.Carousel.getInstance(carousel)?.pause();
-    });
-    carousel.addEventListener('mouseleave', function () {
-      progressBar.style.animationPlayState = 'running';
-      bootstrap.Carousel.getInstance(carousel)?.cycle();
-    });
-  }
-})();
-
-/* =============================================
-   COOKIE MODAL — GDPR / Consent Mode v2
-   Appare centrato al primo accesso (backdrop forzato).
-   L'utente deve scegliere prima di usare il sito.
-   Scadenza preferenze: 180 giorni
-   ============================================= */
-(function () {
-  var STORAGE_KEY = 'cookiePrefs';
-  var EXPIRY_MS   = 180 * 24 * 60 * 60 * 1000;
-
-  if (localStorage.getItem('cookieConsent')) { localStorage.removeItem('cookieConsent'); }
-
-  function getPrefs() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return null;
-      var p = JSON.parse(raw);
-      if (!p || typeof p.answered !== 'boolean' || !p.expires) return null;
-      if (Date.now() > p.expires) { localStorage.removeItem(STORAGE_KEY); return null; }
-      return p;
-    } catch (e) { localStorage.removeItem(STORAGE_KEY); return null; }
-  }
-
-  function savePrefs(profiling) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      answered: true, profiling: profiling, expires: Date.now() + EXPIRY_MS
-    }));
-  }
-
-  function applyConsent(profiling) {
-    if (typeof gtag === 'function') {
-      gtag('consent', 'update', {
-        analytics_storage:  'granted',
-        ad_storage:         profiling ? 'granted' : 'denied',
-        ad_user_data:       profiling ? 'granted' : 'denied',
-        ad_personalization: profiling ? 'granted' : 'denied'
-      });
-    }
-  }
-
-  var prefs = getPrefs();
-  if (prefs) applyConsent(prefs.profiling);
-
-  var modal = document.getElementById('cookieModal');
-  if (!modal) return;
-
-  var bsModalInstance = null;
-
-  function closeConsentModal() {
-    var inst = bsModalInstance || bootstrap.Modal.getInstance(modal);
-    if (inst) inst.hide();
-    bsModalInstance = null;
-  }
-
-  /* Primo accesso: apri il modal centrato, backdrop bloccante */
-  if (!prefs) {
-    setTimeout(function () {
-      bsModalInstance = new bootstrap.Modal(modal, { backdrop: 'static', keyboard: false });
-      bsModalInstance.show();
-    }, 300);
-  }
-
-  /* Bottone Accetta tutto */
-  var acceptBtn = document.getElementById('cookieModalAccept');
-  if (acceptBtn) {
-    acceptBtn.addEventListener('click', function () {
-      savePrefs(true); applyConsent(true); closeConsentModal();
-    });
-  }
-
-  /* Bottone Rifiuta tutto */
-  var rejectBtn = document.getElementById('cookieModalReject');
-  if (rejectBtn) {
-    rejectBtn.addEventListener('click', function () {
-      savePrefs(false); applyConsent(false); closeConsentModal();
-    });
-  }
-
-  /* Bottone Salva preferenze (toggle profilazione) */
-  var savePrefsBtn = document.getElementById('cookieSavePrefs');
-  if (savePrefsBtn) {
-    savePrefsBtn.addEventListener('click', function () {
-      var toggle = document.getElementById('toggleProfiling');
-      var profiling = toggle ? toggle.checked : false;
-      savePrefs(profiling); applyConsent(profiling); closeConsentModal();
-    });
-  }
-})();
-
-/* =============================================
-   SCROLL SPY — evidenzia il link attivo
-   ============================================= */
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-
-window.addEventListener('scroll', function () {
-  const scrollY = window.scrollY + 100;
-
-  sections.forEach(function (section) {
-    const top    = section.offsetTop;
-    const height = section.offsetHeight;
-    const id     = section.getAttribute('id');
-
-    if (scrollY >= top && scrollY < top + height) {
-      navLinks.forEach(function (link) {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + id) {
-          link.classList.add('active');
-        }
-      });
-    }
-  });
-}, { passive: true });
