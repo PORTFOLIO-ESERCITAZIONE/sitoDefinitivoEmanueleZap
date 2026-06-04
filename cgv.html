@@ -13,7 +13,6 @@
   </head>
   <body>
 
-    <!-- ========== NAVBAR ========== -->
     <nav class="navbar sticky-top shadow-sm" id="mainNav">
       <div class="container-md d-flex align-items-center justify-content-between w-100">
         <a class="navbar-brand" href="index.html">
@@ -24,7 +23,6 @@
       </div>
     </nav>
 
-    <!-- ========== HERO ========== -->
     <div class="legal-hero">
       <div class="container">
         <div class="row justify-content-center text-center">
@@ -37,7 +35,6 @@
       </div>
     </div>
 
-    <!-- ========== CONTENUTO ========== -->
     <section class="section-white">
       <div class="container">
         <div class="row justify-content-center">
@@ -121,27 +118,29 @@
 
             <div class="legal-section">
               <h2>7. Garanzia legale di conformità</h2>
-              <table class="legal-table">
-                <thead>
-                  <tr>
-                    <th>Tipo di acquirente</th>
-                    <th>Durata garanzia</th>
-                    <th>Base normativa</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Consumatore</td>
-                    <td><strong>24 mesi</strong> dalla consegna / accesso</td>
-                    <td>Art. 133 D.lgs. 206/2005; Dir. UE 2019/771</td>
-                  </tr>
-                  <tr>
-                    <td>Professionista con Partita IVA</td>
-                    <td><strong>12 mesi</strong> dalla consegna</td>
-                    <td>Art. 1490 e ss. c.c.</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-responsive pb-3">
+                <table class="legal-table">
+                  <thead>
+                    <tr>
+                      <th>Tipo di acquirente</th>
+                      <th>Durata garanzia</th>
+                      <th>Base normativa</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Consumatore</td>
+                      <td><strong>24 mesi</strong> dalla consegna / accesso</td>
+                      <td>Art. 133 D.lgs. 206/2005; Dir. UE 2019/771</td>
+                    </tr>
+                    <tr>
+                      <td>Professionista con Partita IVA</td>
+                      <td><strong>12 mesi</strong> dalla consegna</td>
+                      <td>Art. 1490 e ss. c.c.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <p>In caso di vizio o difetto di conformità del prodotto digitale (es. file corrotto, impossibilità di download), il venditore provvederà a:</p>
               <ol>
                 <li>Ripristinare l'accesso o fornire un nuovo file entro 7 giorni dalla segnalazione; oppure</li>
@@ -186,7 +185,6 @@
       </div>
     </section>
 
-    <!-- ========== FOOTER ========== -->
     <footer class="site-footer">
       <div class="container">
         <div class="row align-items-center gy-3">
@@ -206,7 +204,6 @@
       </div>
     </footer>
 
-    <!-- ========== COOKIE BANNER ========== -->
     <div id="cookieBanner" class="cookie-banner" style="display:none;" role="dialog" aria-live="polite" aria-label="Consenso cookie">
       <div class="cookie-banner-inner">
         <div class="cookie-banner-text">
@@ -221,7 +218,6 @@
       </div>
     </div>
 
-    <!-- ========== MODAL PREFERENZE COOKIE ========== -->
     <div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content cookie-modal-content">
@@ -258,6 +254,18 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="js/script.js"></script>
+    <script>
+      /* Bottone "Gestisci preferenze cookie" nella pagina se presente */
+      var openBtn = document.getElementById('openCookiePrefs');
+      if (openBtn) {
+        openBtn.addEventListener('click', function () {
+          var modal = document.getElementById('cookieModal');
+          if (modal) new bootstrap.Modal(modal).show();
+        });
+      }
+    </script>
   </body>
 </html>

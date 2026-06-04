@@ -13,7 +13,6 @@
 </head>
 <body>
   
-  <!-- ========== NAVBAR ========== -->
   <nav class="navbar sticky-top shadow-sm" id="mainNav">
     <div class="container-md d-flex align-items-center justify-content-between w-100">
       <a class="navbar-brand" href="index.html">
@@ -24,7 +23,6 @@
     </div>
   </nav>
   
-  <!-- ========== HERO ========== -->
   <div class="legal-hero">
     <div class="container">
       <div class="row justify-content-center text-center">
@@ -37,7 +35,6 @@
     </div>
   </div>
   
-  <!-- ========== CONTENUTO ========== -->
   <section class="section-white">
     <div class="container">
       <div class="row justify-content-center">
@@ -48,101 +45,106 @@
             <p>I cookie sono piccoli file di testo che i siti web inviano al browser dell'utente e vengono memorizzati sul dispositivo. Servono a fare funzionare il sito, a ricordare le preferenze e, se consentito, a raccogliere dati per finalità statistiche o di marketing.</p>
             <p>Questa pagina descrive tutti i cookie utilizzati dal sito <strong>emanuelezappala.it</strong>, in conformità al Provvedimento del Garante per la protezione dei dati personali dell'8 luglio 2021 e alle Linee guida dei cookie del 10 giugno 2021.</p>
           </div>
-          <!-- =======================================================INSERIRE DOMINIO================================================================ -->
           
           <div class="legal-section">
             <h2>2. Categorie di cookie utilizzati</h2>
             
             <h3 class="mt-4 mb-3" style="font-size:1.05rem;font-weight:700;color:var(--navy);">A) Cookie tecnici — sempre attivi</h3>
             <p>Necessari al funzionamento del sito. Non richiedono consenso ai sensi dell'art. 122, comma 1, D.lgs. 196/2003.</p>
-            <table class="legal-table">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Finalità</th>
-                  <th>Durata</th>
-                  <th>Prima/Terza parte</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>cookiePrefs</code></td>
-                  <td>Salva le preferenze cookie dell'utente</td>
-                  <td>180 giorni</td>
-                  <td>Prima parte</td>
-                </tr>
-                <tr>
-                  <td>Cookie di sessione Bootstrap</td>
-                  <td>Funzionalità interattive (menu, modal)</td>
-                  <td>Sessione</td>
-                  <td>Prima parte</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive pb-3">
+              <table class="legal-table">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Finalità</th>
+                    <th>Durata</th>
+                    <th>Prima/Terza parte</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>cookiePrefs</code></td>
+                    <td>Salva le preferenze cookie dell'utente</td>
+                    <td>180 giorni</td>
+                    <td>Prima parte</td>
+                  </tr>
+                  <tr>
+                    <td>Cookie di sessione Bootstrap</td>
+                    <td>Funzionalità interattive (menu, modal)</td>
+                    <td>Sessione</td>
+                    <td>Prima parte</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             
             <h3 class="mt-4 mb-3" style="font-size:1.05rem;font-weight:700;color:var(--navy);">B) Cookie analitici (GA4 anonimizzato) — sempre attivi</h3>
             <p>Utilizziamo Google Analytics 4 con IP anonimizzato. I dati sono aggregati e non permettono l'identificazione del singolo utente. Ai sensi del Provvedimento Garante del 9 giugno 2022 (e successivi chiarimenti), l'uso di GA4 con full anonymization non richiede consenso se configurato correttamente.</p>
             <div class="legal-highlight">
               <p><strong>Configurazione adottata:</strong> anonimizzazione completa dell'IP, nessun dato condiviso con Google per finalità pubblicitarie, nessun tracciamento cross-site.</p>
             </div>
-            <table class="legal-table">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Finalità</th>
-                  <th>Durata</th>
-                  <th>Fornitore</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>_ga</code></td>
-                  <td>Identificatore sessione anonima</td>
-                  <td>2 anni</td>
-                  <td>Google LLC</td>
-                </tr>
-                <tr>
-                  <td><code>_ga_XXXXXXXX</code></td>
-                  <td>Stato sessione GA4</td>
-                  <td>2 anni</td>
-                  <td>Google LLC</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive pb-3">
+              <table class="legal-table">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Finalità</th>
+                    <th>Durata</th>
+                    <th>Fornitore</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>_ga</code></td>
+                    <td>Identificatore sessione anonima</td>
+                    <td>2 anni</td>
+                    <td>Google LLC</td>
+                  </tr>
+                  <tr>
+                    <td><code>_ga_XXXXXXXX</code></td>
+                    <td>Stato sessione GA4</td>
+                    <td>2 anni</td>
+                    <td>Google LLC</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <p style="font-size:.85rem;color:var(--muted);">Privacy policy Google Analytics: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></p>
             
             <h3 class="mt-4 mb-3" style="font-size:1.05rem;font-weight:700;color:var(--navy);">C) Cookie di profilazione — richiedono consenso (opt-in)</h3>
             <p>Questi cookie sono <strong>disattivati di default</strong>. Vengono attivati solo se l'utente acconsente esplicitamente tramite il banner cookie o la sezione "Personalizza". Sono usati per mostrare annunci personalizzati su piattaforme esterne.</p>
-            <table class="legal-table">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Finalità</th>
-                  <th>Durata</th>
-                  <th>Fornitore</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>_fbp</code></td>
-                  <td>Meta Pixel – tracciamento conversioni Facebook/Instagram</td>
-                  <td>90 giorni</td>
-                  <td>Meta Platforms Ireland Ltd.</td>
-                </tr>
-                <tr>
-                  <td><code>_fbc</code></td>
-                  <td>Meta Pixel – click sull'annuncio Facebook</td>
-                  <td>90 giorni</td>
-                  <td>Meta Platforms Ireland Ltd.</td>
-                </tr>
-                <tr>
-                  <td>Cookie Google Ads</td>
-                  <td>Tracciamento conversioni e remarketing Google</td>
-                  <td>30–540 giorni</td>
-                  <td>Google LLC</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive pb-3">
+              <table class="legal-table">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Finalità</th>
+                    <th>Durata</th>
+                    <th>Fornitore</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>_fbp</code></td>
+                    <td>Meta Pixel – tracciamento conversioni Facebook/Instagram</td>
+                    <td>90 giorni</td>
+                    <td>Meta Platforms Ireland Ltd.</td>
+                  </tr>
+                  <tr>
+                    <td><code>_fbc</code></td>
+                    <td>Meta Pixel – click sull'annuncio Facebook</td>
+                    <td>90 giorni</td>
+                    <td>Meta Platforms Ireland Ltd.</td>
+                  </tr>
+                  <tr>
+                    <td>Cookie Google Ads</td>
+                    <td>Tracciamento conversioni e remarketing Google</td>
+                    <td>30–540 giorni</td>
+                    <td>Google LLC</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <p style="font-size:.85rem;color:var(--muted);">Privacy policy Meta: <a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener">facebook.com/privacy/policy</a></p>
           </div>
           
@@ -183,103 +185,102 @@
             <h2>5. Contatti</h2>
             <p>Per qualsiasi domanda relativa ai cookie o al trattamento dei dati personali, scrivi a <a href="mailto:emanuelezpnutrition@gmail.com">emanuelezpnutrition@gmail.com</a>.<br>
               Per ulteriori informazioni consulta la <a href="privacy.html">Privacy Policy</a>.</p>
-            </div>
+          </div>
             
-          </div>
-        </div>
-      </div>
-    </section>
-    
-    <!-- ========== FOOTER ========== -->
-    <footer class="site-footer py-4">
-      <div class="container">
-        <div class="row align-items-center g-3">
-          
-          <div class="col-md-4">
-            <span class="footer-brand">E. Zappalà</span>
-            <span class="footer-subtitle">Biologo Nutrizionista</span>
-          </div>
-          
-          <div class="col-md-4 text-center">
-            <p class="footer-copy mb-0 text-muted small">
-              &copy; 2026 Emanuele Zappalà.<br>Tutti i diritti riservati.
-            </p>
-          </div>
-          
-          <div class="col-md-4 text-center text-md-end">
-            <div class="footer-links">
-              <a href="cgv.html" class="footer-link d-inline-block me-3 me-md-0 ms-md-3">Condizioni di Vendita</a>
-              <a href="privacy.html" class="footer-link d-inline-block me-3 me-md-0 ms-md-3">Privacy Policy</a>
-              <a href="cookie-policy.html" class="footer-link d-inline-block me-md-0 ms-md-3">Cookie Policy</a>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </footer>
-    
-    <!-- ========== COOKIE BANNER ========== -->
-    <div id="cookieBanner" class="cookie-banner" style="display:none;" role="dialog" aria-live="polite" aria-label="Consenso cookie">
-      <div class="cookie-banner-inner">
-        <div class="cookie-banner-text">
-          <strong class="cookie-banner-title">Questo sito utilizza i cookie</strong>
-          <p>Utilizziamo cookie tecnici necessari al funzionamento e, previo consenso, cookie di profilazione. Consulta la <a href="cookie-policy.html" class="cookie-link">Cookie Policy</a> e la <a href="privacy.html" class="cookie-link">Privacy Policy</a>.</p>
-        </div>
-        <div class="cookie-banner-actions">
-          <button id="cookieCustomize" class="btn-cookie-eq">Personalizza</button>
-          <button id="cookieReject"    class="btn-cookie-eq">Rifiuta</button>
-          <button id="cookieAccept"    class="btn-cookie-eq">Accetta</button>
         </div>
       </div>
     </div>
-    
-    <!-- ========== MODAL PREFERENZE COOKIE ========== -->
-    <div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content cookie-modal-content">
-          <div class="modal-header cookie-modal-header">
-            <h5 class="modal-title cookie-modal-title" id="cookieModalLabel">Preferenze cookie</h5>
-          </div>
-          <div class="modal-body cookie-modal-body">
-            <p class="cookie-modal-intro">I cookie tecnici e analitici (GA4 anonimizzato) sono sempre attivi. Puoi attivare o disattivare i cookie di profilazione.</p>
-            <div class="cookie-pref-row">
-              <div class="cookie-pref-info">
-                <span class="cookie-pref-name">Cookie Tecnici &amp; Analitici</span>
-                <span class="cookie-pref-desc">Necessari per navigazione, sicurezza e statistiche anonime.</span>
-              </div>
-              <span class="cookie-always-on">Sempre attivi</span>
-            </div>
-            <div class="cookie-pref-row">
-              <div class="cookie-pref-info">
-                <span class="cookie-pref-name">Cookie di Profilazione</span>
-                <span class="cookie-pref-desc">Annunci personalizzati (es. Meta Pixel, Google Ads). Disattivati di default.</span>
-              </div>
-              <label class="cookie-toggle" aria-label="Attiva cookie di profilazione">
-                <input type="checkbox" id="toggleProfiling">
-                <span class="cookie-toggle-track"><span class="cookie-toggle-thumb"></span></span>
-              </label>
-            </div>
-          </div>
-          <div class="modal-footer cookie-modal-footer">
-            <button type="button" id="cookieModalReject" class="btn-cookie-modal-eq">Rifiuta tutto</button>
-            <button type="button" id="cookieSavePrefs"   class="btn-cookie-modal-eq">Salva preferenze</button>
-            <button type="button" id="cookieModalAccept" class="btn-cookie-modal-eq">Accetta tutto</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/script.js"></script>
-    <script>
-      var openBtn = document.getElementById('openCookiePrefs');
-      if (openBtn) {
-        openBtn.addEventListener('click', function () {
-          var modal = document.getElementById('cookieModal');
-          if (modal) new bootstrap.Modal(modal).show();
-        });
-      }
-    </script>
-  </body>
-  </html>
+  </section>
   
+  <footer class="site-footer py-4">
+    <div class="container">
+      <div class="row align-items-center g-3">
+        
+        <div class="col-md-4">
+          <span class="footer-brand">E. Zappalà</span>
+          <span class="footer-subtitle">Biologo Nutrizionista</span>
+        </div>
+        
+        <div class="col-md-4 text-center">
+          <p class="footer-copy mb-0 text-muted small">
+            &copy; 2026 Emanuele Zappalà.<br>Tutti i diritti riservati.
+          </p>
+        </div>
+        
+        <div class="col-md-4 text-center text-md-end">
+          <div class="footer-links">
+            <a href="cgv.html" class="footer-link d-inline-block me-3 me-md-0 ms-md-3">Condizioni di Vendita</a>
+            <a href="privacy.html" class="footer-link d-inline-block me-3 me-md-0 ms-md-3">Privacy Policy</a>
+            <a href="cookie-policy.html" class="footer-link d-inline-block me-md-0 ms-md-3">Cookie Policy</a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </footer>
+  
+  <div id="cookieBanner" class="cookie-banner" style="display:none;" role="dialog" aria-live="polite" aria-label="Consenso cookie">
+    <div class="cookie-banner-inner">
+      <div class="cookie-banner-text">
+        <strong class="cookie-banner-title">Questo sito utilizza i cookie</strong>
+        <p>Utilizziamo cookie tecnici necessari al funzionamento e, previo consenso, cookie di profilazione. Consulta la <a href="cookie-policy.html" class="cookie-link">Cookie Policy</a> e la <a href="privacy.html" class="cookie-link">Privacy Policy</a>.</p>
+      </div>
+      <div class="cookie-banner-actions">
+        <button id="cookieCustomize" class="btn-cookie-eq">Personalizza</button>
+        <button id="cookieReject"    class="btn-cookie-eq">Rifiuta</button>
+        <button id="cookieAccept"    class="btn-cookie-eq">Accetta</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content cookie-modal-content">
+        <div class="modal-header cookie-modal-header">
+          <h5 class="modal-title cookie-modal-title" id="cookieModalLabel">Preferenze cookie</h5>
+        </div>
+        <div class="modal-body cookie-modal-body">
+          <p class="cookie-modal-intro">I cookie tecnici e analitici (GA4 anonimizzato) sono sempre attivi. Puoi attivare o disattivare i cookie di profilazione.</p>
+          <div class="cookie-pref-row">
+            <div class="cookie-pref-info">
+              <span class="cookie-pref-name">Cookie Tecnici &amp; Analitici</span>
+              <span class="cookie-pref-desc">Necessari per navigazione, sicurezza e statistiche anonime.</span>
+            </div>
+            <span class="cookie-always-on">Sempre attivi</span>
+          </div>
+          <div class="cookie-pref-row">
+            <div class="cookie-pref-info">
+              <span class="cookie-pref-name">Cookie di Profilazione</span>
+              <span class="cookie-pref-desc">Annunci personalizzati (es. Meta Pixel, Google Ads). Disattivati di default.</span>
+            </div>
+            <label class="cookie-toggle" aria-label="Attiva cookie di profilazione">
+              <input type="checkbox" id="toggleProfiling">
+              <span class="cookie-toggle-track"><span class="cookie-toggle-thumb"></span></span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer cookie-modal-footer">
+          <button type="button" id="cookieModalReject" class="btn-cookie-modal-eq">Rifiuta tutto</button>
+          <button type="button" id="cookieSavePrefs"   class="btn-cookie-modal-eq">Salva preferenze</button>
+          <button type="button" id="cookieModalAccept" class="btn-cookie-modal-eq">Accetta tutto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    /* Bottone "Gestisci preferenze cookie" nella pagina */
+    var openBtn = document.getElementById('openCookiePrefs');
+    if (openBtn) {
+      openBtn.addEventListener('click', function () {
+        var modal = document.getElementById('cookieModal');
+        if (modal) new bootstrap.Modal(modal).show();
+      });
+    }
+  </script>
+</body>
+</html>

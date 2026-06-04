@@ -40,7 +40,6 @@ class Store {
 
     async fetchEbooks() {
         try {
-            // Utilizzo del fetch sul percorso passato nel costruttore
             const response = await fetch(this.jsonPath);
             if (!response.ok) throw new Error('Errore caricamento JSON');
             const data = await response.json();
@@ -83,8 +82,37 @@ class Store {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Qui è inserito il percorso corretto: ./data/ebook.json
+// LOGICA CURSOR CON EVENT DELEGATION
+document.addEventListener("DOMContentLoaded", () => {
+    // Inizializza lo store
     const store = new Store('store-container', './data/ebook.json');
     store.fetchEbooks();
+
+    // Crea cursore
+    const cursor = document.createElement('div');
+    cursor.classList.add('custom-cursor');
+    document.body.appendChild(cursor);
+
+    // Movimento cursore
+    window.addEventListener('mousemove', (e) => {
+        gsap.to(cursor, { 
+            x: e.clientX, 
+            y: e.clientY, 
+            duration: 0.1, 
+            ease: "power2.out" 
+        });
+    });
+
+    // Delegazione eventi: funziona anche sui bottoni creati dopo (es. bottoni "Acquista" del JS)
+    document.addEventListener('mouseover', (e) => {
+        if (e.target.closest('a, button, .btn')) {
+            cursor.classList.add('hovered');
+        }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+        if (e.target.closest('a, button, .btn')) {
+            cursor.classList.remove('hovered');
+        }
+    });
 });
