@@ -82,37 +82,46 @@ class Store {
     }
 }
 
-// LOGICA CURSOR CON EVENT DELEGATION
-document.addEventListener("DOMContentLoaded", () => {
-    // Inizializza lo store
+// INIZIALIZZAZIONE SICURA (Risolve il bug di type="module")
+function initApp() {
+    // 1. Inizializza lo store
     const store = new Store('store-container', './data/ebook.json');
     store.fetchEbooks();
 
-    // Crea cursore
-    const cursor = document.createElement('div');
-    cursor.classList.add('custom-cursor');
-    document.body.appendChild(cursor);
+    // 2. Crea cursore GSAP (Solo se GSAP è stato caricato)
+    if (typeof gsap !== "undefined") {
+        const cursor = document.createElement('div');
+        cursor.classList.add('custom-cursor');
+        document.body.appendChild(cursor);
 
-    // Movimento cursore
-    window.addEventListener('mousemove', (e) => {
-        gsap.to(cursor, { 
-            x: e.clientX, 
-            y: e.clientY, 
-            duration: 0.1, 
-            ease: "power2.out" 
+        // Movimento cursore
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { 
+                x: e.clientX, 
+                y: e.clientY, 
+                duration: 0.1, 
+                ease: "power2.out" 
+            });
         });
-    });
 
-    // Delegazione eventi: funziona anche sui bottoni creati dopo (es. bottoni "Acquista" del JS)
-    document.addEventListener('mouseover', (e) => {
-        if (e.target.closest('a, button, .btn')) {
-            cursor.classList.add('hovered');
-        }
-    });
+        // Delegazione eventi: funziona anche sui bottoni creati dopo dal JSON
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('a, button, .btn, .nav-link')) {
+                cursor.classList.add('hovered');
+            }
+        });
 
-    document.addEventListener('mouseout', (e) => {
-        if (e.target.closest('a, button, .btn')) {
-            cursor.classList.remove('hovered');
-        }
-    });
-});
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest('a, button, .btn, .nav-link')) {
+                cursor.classList.remove('hovered');
+            }
+        });
+    }
+}
+
+// Assicura che il DOM sia pronto anche all'interno di un modulo
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initApp);
+} else {
+    initApp();
+}
