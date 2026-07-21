@@ -1,0 +1,90 @@
+/* ==============================================================
+   LEGAL.CSS — Pagine legali (cgv, privacy, cookie-policy)
+   Richiede base.css caricato prima.
+   ============================================================== */
+
+.legal-hero {
+  background: var(--navy);
+  padding: clamp(3.5rem, 8vw, 5rem) 0 clamp(2rem, 5vw, 3.5rem);
+  position: relative;
+}
+.legal-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,169,81,.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+.legal-date {
+  font-size: .8rem;
+  color: rgba(255,255,255,.35);
+  margin-top: .6rem;
+  letter-spacing: .3px;
+}
+
+.legal-section { margin-bottom: 2.75rem; }
+.legal-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 2px solid var(--gold);
+  display: inline-block;
+}
+.legal-section p,
+.legal-section li {
+  font-size: .95rem;
+  color: #4b5563;
+  line-height: 1.85;
+}
+.legal-section ul,
+.legal-section ol {
+  padding-left: 1.4rem;
+  margin-bottom: .75rem;
+}
+.legal-section li { margin-bottom: .3rem; }
+
+.legal-highlight {
+  background: rgba(26,39,68,.05);
+  border-left: 3px solid var(--gold);
+  padding: .9rem 1.2rem;
+  border-radius: 0 6px 6px 0;
+  margin: 1rem 0 1.25rem;
+}
+.legal-highlight p { margin: 0; font-size: .9rem; }
+
+/* Tabelle: mai min-width fissi che sfondano su mobile */
+.legal-table {
+  width: 100%;
+  font-size: .88rem;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+.legal-table th {
+  background: var(--navy);
+  color: var(--white);
+  padding: .6rem .9rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: .8rem;
+  letter-spacing: .3px;
+}
+.legal-table td {
+  padding: .6rem .9rem;
+  border-bottom: 1px solid var(--border);
+  color: #4b5563;
+  vertical-align: top;
+}
+.legal-table tr:last-child td { border-bottom: none; }
+.legal-table tr:nth-child(even) td { background: rgba(26,39,68,.03); }
+
+@media (max-width: 767.98px) {
+  .legal-section h2 { font-size: 1.15rem; }
+  .legal-section p, .legal-section li { font-size: .9rem; line-height: 1.7; }
+  .legal-table th, .legal-table td {
+    padding: .5rem .4rem;
+    font-size: .8rem;
+  }
+}

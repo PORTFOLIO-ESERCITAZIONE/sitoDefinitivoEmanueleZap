@@ -1,0 +1,666 @@
+/* ==============================================================
+   BASE.CSS — Stili condivisi da TUTTE le pagine
+   (variabili, reset, bottoni, navbar, sezioni, footer,
+    cookie banner, cursore custom)
+   ============================================================== */
+
+/* =============================================
+   VARIABILI & RESET
+   ============================================= */
+:root {
+  --navy:       #1a2744;
+  --navy-light: #253a6b;
+  --gold:       #c8a951;
+  --gold-dark:  #a8893a;
+  --bg:         #f9f8f5;
+  --white:      #ffffff;
+  --text:       #1e1e1e;
+  --muted:      #6b7280;
+  --border:     #e5e3dc;
+  --radius:     12px;
+  --shadow-sm:  0 2px 8px rgba(26,39,68,.07);
+  --shadow-md:  0 8px 32px rgba(26,39,68,.13);
+  --ease:       0.25s ease;
+  --nav-height: 72px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* clip non rompe position:sticky, a differenza di hidden */
+  overflow-x: clip;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  background: var(--white);
+  line-height: 1.7;
+  max-width: 100%;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports not (overflow-x: clip) {
+  html, body { overflow-x: hidden; }
+}
+
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Le ancore (#chi-sono, #contatti...) non finiscono sotto la navbar sticky */
+section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
+
+/* Rispetta chi preferisce animazioni ridotte */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* =============================================
+   PULSANTI
+   ============================================= */
+.btn-gold {
+  background: var(--gold);
+  color: var(--navy);
+  font-weight: 600;
+  font-size: .88rem;
+  letter-spacing: .3px;
+  padding: .65rem 1.6rem;
+  border: none;
+  border-radius: 6px;
+  transition: background var(--ease), transform var(--ease);
+}
+.btn-gold:hover {
+  background: var(--gold-dark);
+  color: var(--navy);
+  transform: translateY(-2px);
+}
+
+.btn-navy {
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 600;
+  font-size: .88rem;
+  padding: .65rem 1.6rem;
+  border: none;
+  border-radius: 6px;
+  transition: background var(--ease), transform var(--ease);
+}
+.btn-navy:hover {
+  background: var(--navy-light);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.btn-outline-navy {
+  background: transparent;
+  color: var(--navy);
+  font-weight: 600;
+  font-size: .88rem;
+  padding: .65rem 1.6rem;
+  border: 2px solid var(--navy);
+  border-radius: 6px;
+  transition: all var(--ease);
+}
+.btn-outline-navy:hover {
+  background: var(--navy);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.btn-outline-hero {
+  background: transparent;
+  color: rgba(255,255,255,.85);
+  font-weight: 600;
+  font-size: .88rem;
+  padding: .65rem 1.6rem;
+  border: 1.5px solid rgba(255,255,255,.35);
+  border-radius: 6px;
+  transition: all var(--ease);
+  text-decoration: none;
+}
+.btn-outline-hero:hover {
+  background: rgba(255,255,255,.08);
+  color: var(--white);
+  border-color: rgba(255,255,255,.6);
+}
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+#mainNav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: .8rem 0;
+  transition: box-shadow var(--ease);
+  z-index: 1000;
+}
+#mainNav.scrolled { box-shadow: var(--shadow-md); }
+
+.navbar-brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  text-decoration: none;
+}
+.brand-name {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--navy);
+}
+.brand-subtitle {
+  font-size: .68rem;
+  font-weight: 500;
+  color: var(--gold-dark);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.navbar-nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-link {
+  font-size: .87rem;
+  font-weight: 500;
+  color: var(--text) !important;
+  padding: .4rem .9rem !important;
+  white-space: nowrap;
+  transition: color var(--ease);
+}
+.nav-link::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform var(--ease);
+}
+.nav-link:hover { color: var(--navy) !important; }
+.nav-link:hover::after,
+.nav-link.active::after { transform: scaleX(1); }
+
+.navbar-toggler {
+  border: none;
+  background: transparent;
+  padding: .4rem;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--navy);
+  border-radius: 2px;
+  transition: transform var(--ease), opacity var(--ease);
+}
+.navbar-toggler[aria-expanded="true"] .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.navbar-toggler[aria-expanded="true"] .hamburger-line:nth-child(2) { opacity: 0; }
+.navbar-toggler[aria-expanded="true"] .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ---------- MENU MOBILE: pannello curato (Bootstrap collapse) ---------- */
+@media (max-width: 991.98px) {
+  .navbar-nav-center { position: static; transform: none; }
+
+  #mainNav .navbar-collapse {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow-md);
+    margin-top: .9rem;
+    padding: .5rem 1.25rem;
+  }
+
+  #mainNav .navbar-nav { gap: 0; }
+
+  #mainNav .nav-item + .nav-item { border-top: 1px solid rgba(26,39,68,.06); }
+
+  #mainNav .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .85rem .15rem !important;
+    font-size: .92rem;
+  }
+  /* Freccetta a destra al posto della riga sotto */
+  #mainNav .nav-link::after {
+    content: '\2192'; /* → */
+    height: auto;
+    background: none;
+    color: var(--gold);
+    font-size: .85rem;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity var(--ease), transform var(--ease);
+  }
+  #mainNav .nav-link:hover::after,
+  #mainNav .nav-link:active::after,
+  #mainNav .nav-link.active::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* CTA Consulenza a tutta larghezza, staccata dalle voci */
+  #mainNav .nav-item.ms-2 {
+    margin: .35rem 0 .6rem !important;
+    border-top: none;
+    padding-top: .35rem;
+  }
+  #mainNav .nav-item.ms-2 .btn-gold {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: .65rem 1rem !important;
+    font-size: .88rem !important;
+  }
+}
+
+/* =============================================
+   SEZIONI — LAYOUT GENERALI (padding fluido)
+   ============================================= */
+.section-white { padding: clamp(3.5rem, 8vw, 6rem) 0; background: var(--white); }
+.section-light { padding: clamp(3.5rem, 8vw, 6rem) 0; background: var(--bg); }
+.section-navy  { padding: clamp(3.5rem, 8vw, 6rem) 0; background: var(--navy); }
+
+.section-eyebrow {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: .5rem;
+}
+.section-eyebrow-light {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .5rem;
+}
+.section-title {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: .75rem;
+}
+.section-title-light {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: .75rem;
+}
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+}
+.section-intro {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-text {
+  font-size: .97rem;
+  color: #4b5563;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.08rem;
+  color: rgba(255,255,255,.72);
+  max-width: 520px;
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+}
+
+/* =============================================
+   "ALTRI EBOOK IN ARRIVO" (home + store)
+   ============================================= */
+.ebook-coming {
+  text-align: center;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,.07);
+  font-size: .78rem;
+  color: rgba(255,255,255,.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+.ebook-coming a { color: var(--gold); text-decoration: none; transition: color var(--ease); }
+.ebook-coming a:hover { color: var(--gold-dark); }
+.ebook-coming-dot { color: rgba(255,255,255,.12); }
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.site-footer {
+  background: var(--navy);
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--white);
+  display: block;
+}
+.footer-subtitle {
+  font-size: .68rem;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  display: block;
+}
+.footer-copy {
+  font-size: .78rem;
+  color: rgba(255,255,255,.38);
+  margin: 0;
+}
+.footer-link {
+  font-size: .78rem;
+  color: rgba(255,255,255,.38);
+  text-decoration: none;
+  transition: color var(--ease);
+}
+.footer-link:hover { color: var(--gold); }
+
+@media (max-width: 767.98px) {
+  .site-footer { text-align: center; padding: 1.75rem 0; }
+  .site-footer .text-md-end { text-align: center !important; }
+  .footer-link { display: inline-block; padding: .15rem .35rem; }
+  .footer-link.ms-3 { margin-left: .5rem !important; }
+}
+
+/* =============================================
+   BOTTONE TORNA SU (iniettato da main.js)
+   ============================================= */
+.scroll-top-btn {
+  position: fixed;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,169,81,.45);
+  background: var(--navy);
+  color: var(--gold);
+  font-size: .95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 9000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.25);
+  transition: opacity .3s ease, transform .3s ease, visibility .3s, background .3s ease;
+}
+.scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.scroll-top-btn:hover { background: var(--navy-light); color: var(--gold); }
+.scroll-top-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* =============================================
+   COOKIE BANNER & MODALE PREFERENZE
+   ============================================= */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: var(--navy);
+  border-top: 2px solid var(--gold);
+  padding: 1rem 0;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+.cookie-banner.visible { transform: translateY(0); }
+.cookie-banner-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.cookie-banner-text { flex: 1; min-width: 260px; }
+.cookie-banner-title {
+  display: block;
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: .3rem;
+}
+.cookie-banner-text p {
+  font-size: .8rem;
+  color: rgba(255,255,255,.62);
+  margin: 0;
+  line-height: 1.55;
+}
+.cookie-link {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color var(--ease);
+}
+.cookie-link:hover { color: var(--gold-dark); }
+.cookie-banner-actions {
+  display: flex;
+  gap: .6rem;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.btn-cookie-eq {
+  background: transparent;
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: .82rem;
+  font-weight: 600;
+  padding: .5rem 1.2rem;
+  border: 1.5px solid rgba(255,255,255,.5);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background var(--ease), border-color var(--ease);
+  white-space: nowrap;
+  min-width: 105px;
+  text-align: center;
+}
+.btn-cookie-eq:hover {
+  background: rgba(255,255,255,.1);
+  border-color: var(--white);
+}
+
+.cookie-modal-content {
+  background: var(--navy);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px;
+}
+.cookie-modal-header {
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  padding: 1.4rem 1.75rem;
+}
+.cookie-modal-title {
+  font-family: 'Playfair Display', serif;
+  color: var(--white);
+  font-size: 1.25rem;
+  margin: 0;
+}
+.cookie-modal-body { padding: 1.5rem 1.75rem; }
+.cookie-modal-intro {
+  font-size: .82rem;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+.cookie-modal-footer {
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding: 1.1rem 1.75rem;
+  display: flex;
+  gap: .5rem;
+}
+
+.btn-cookie-modal-eq {
+  flex: 1;
+  background: transparent;
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: .8rem;
+  font-weight: 600;
+  padding: .55rem .4rem;
+  border: 1.5px solid rgba(255,255,255,.5);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background var(--ease), border-color var(--ease);
+  text-align: center;
+  white-space: nowrap;
+}
+.btn-cookie-modal-eq:hover {
+  background: rgba(255,255,255,.1);
+  border-color: var(--white);
+}
+
+.cookie-pref-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.cookie-pref-row:last-child { border-bottom: none; }
+.cookie-pref-info { flex: 1; }
+.cookie-pref-name {
+  display: block;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: .25rem;
+}
+.cookie-pref-desc {
+  display: block;
+  font-size: .78rem;
+  color: rgba(255,255,255,.48);
+  line-height: 1.55;
+}
+.cookie-always-on {
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--gold);
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: .1rem;
+}
+
+.cookie-toggle {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  cursor: pointer;
+  padding-top: .1rem;
+}
+.cookie-toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.cookie-toggle-track {
+  display: block;
+  width: 44px;
+  height: 24px;
+  background: rgba(255,255,255,.18);
+  border-radius: 12px;
+  position: relative;
+  transition: background var(--ease);
+}
+.cookie-toggle input:checked + .cookie-toggle-track { background: var(--gold); }
+.cookie-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--white);
+  border-radius: 50%;
+  transition: transform var(--ease);
+  box-shadow: 0 1px 4px rgba(0,0,0,.3);
+}
+.cookie-toggle input:checked + .cookie-toggle-track .cookie-toggle-thumb { transform: translateX(20px); }
+.cookie-toggle input:focus-visible + .cookie-toggle-track {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767.98px) {
+  .cookie-banner-actions { width: 100%; justify-content: stretch; }
+  .btn-cookie-eq { flex: 1; min-width: 0; }
+}
+@media (max-width: 480px) {
+  .cookie-modal-footer { flex-direction: column; }
+}
+
+/* =============================================
+   CURSORE CUSTOM (solo mouse, mai su touch)
+   ============================================= */
+@media (pointer: fine) {
+  /* Il cursore nativo viene nascosto SOLO se il JS ha creato quello
+     custom (classe sul body): mai più pagina senza alcun cursore */
+  body.has-custom-cursor, body.has-custom-cursor * { cursor: none !important; }
+
+  /* Dentro gli iframe (Calendly ecc.) il mouse non è tracciabile:
+     lì si torna al cursore normale */
+  body.has-custom-cursor iframe,
+  body.has-custom-cursor .calendly-inline-widget,
+  body.has-custom-cursor .calendly-inline-widget * {
+    cursor: auto !important;
+  }
+
+  .custom-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 20px; height: 20px;
+    background-color: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, opacity 0.25s ease;
+    mix-blend-mode: difference;
+  }
+  .custom-cursor.hovered {
+    width: 60px; height: 60px;
+    background-color: rgba(200,169,81,.3);
+    border: 2px solid var(--gold);
+  }
+  /* Nascosto quando il mouse è su un iframe o fuori dalla finestra */
+  .custom-cursor.cursor-hidden { opacity: 0; }
+}

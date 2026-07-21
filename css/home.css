@@ -1,0 +1,626 @@
+/* ==============================================================
+   HOME.CSS — Stili esclusivi della home page (index.html)
+   Richiede base.css caricato prima.
+   ============================================================== */
+
+/* PREPARAZIONE GSAP (nasconde gli elementi prima dell'animazione;
+   main.js li rende visibili anche se GSAP non carica) */
+.gsap-hero-item > *, .gsap-fade {
+  opacity: 0;
+  visibility: hidden;
+}
+/* Suggerisce al browser di promuovere questi layer → animazioni fluide */
+.gsap-fade, .gsap-stat, .gsap-hero-item > * {
+  will-change: transform, opacity;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gsap-hero-item > *, .gsap-fade { opacity: 1; visibility: visible; }
+}
+
+/* =============================================
+   HERO
+   ============================================= */
+.hero {
+  min-height: 92vh;
+  min-height: 92svh;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 75% 50%, rgba(200,169,81,.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+}
+.hero-title {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+.hero-title em { font-style: italic; color: var(--gold); }
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+.hero-photo-frame {
+  width: min(390px, 100%);
+  height: 520px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1.5px solid rgba(200,169,81,.35);
+  position: relative;
+  box-shadow:
+    0 24px 64px rgba(0,0,0,.5),
+    0 0 0 1px rgba(200,169,81,.08),
+    inset 0 0 0 1px rgba(255,255,255,.03);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  cursor: default;
+}
+.hero-photo-frame:hover {
+  border-color: rgba(200,169,81,.7);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,.55),
+    0 0 40px rgba(200,169,81,.12),
+    inset 0 0 0 1px rgba(255,255,255,.04);
+}
+
+/* =============================================
+   CAROUSEL IMMAGINI
+   ============================================= */
+#ebookCarousel {
+  height: 520px;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+}
+#ebookCarousel.carousel-fade .carousel-item {
+  transition: opacity 0.85s ease !important;
+}
+.carousel-img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+.carousel-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 90px;
+  background: linear-gradient(to top, rgba(10,15,30,.85), transparent);
+  pointer-events: none;
+  z-index: 5;
+}
+.carousel-progress-bar {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+  z-index: 15;
+  border-radius: 0 2px 2px 0;
+}
+.carousel-dot-wrap {
+  position: absolute;
+  bottom: 1.1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 10;
+}
+.c-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,.35);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: width .3s ease, background .3s ease;
+}
+.c-dot.active {
+  background: var(--gold);
+  width: 22px;
+}
+
+/* =============================================
+   CHI SONO
+   ============================================= */
+.about-photo-frame {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 2px solid var(--border);
+}
+.about-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: 1.5rem;
+}
+.badge-pill {
+  font-size: .75rem;
+  font-weight: 500;
+  color: var(--navy);
+  background: rgba(26,39,68,.06);
+  border: 1px solid rgba(26,39,68,.12);
+  padding: .3rem .9rem;
+  border-radius: 100px;
+}
+
+/* =============================================
+   EBOOK (sezione home)
+   ============================================= */
+.ebook-book-showcase {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 32px;
+}
+.ebook-book-showcase-img {
+  display: block;
+  width: 230px;
+  height: auto;
+  border-radius: 3px 10px 10px 3px;
+  transform: rotate(-3deg);
+  box-shadow: 10px 18px 50px rgba(0,0,0,.65);
+  animation: bookFloat 5s ease-in-out infinite;
+}
+.ebook-book-shadow {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 170px;
+  height: 26px;
+  background: rgba(0,0,0,.5);
+  filter: blur(16px);
+  border-radius: 50%;
+  animation: shadowPulse 5s ease-in-out infinite;
+}
+@keyframes bookFloat {
+  0%, 100% { transform: rotate(-3deg) translateY(0); }
+  50%      { transform: rotate(-3deg) translateY(-14px); }
+}
+@keyframes shadowPulse {
+  0%, 100% { transform: translateX(-50%) scaleX(1);   opacity: .5; }
+  50%      { transform: translateX(-50%) scaleX(.75); opacity: .2; }
+}
+.ebook-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+.ebook-features-list li {
+  font-size: .87rem;
+  color: rgba(255,255,255,.68);
+  padding-left: 1.2rem;
+  position: relative;
+  line-height: 1.5;
+}
+.ebook-features-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: .5rem;
+  width: 5px; height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+.ebook-cta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin-bottom: .6rem;
+}
+.ebook-shopify-note {
+  font-size: .7rem;
+  color: rgba(255,255,255,.28);
+  margin: 0;
+}
+
+/* ==============================================================
+   IL MIO METODO — SCROLL ORIZZONTALE
+   Desktop (≥992px): pin GSAP, lo scroll verticale guida quello
+   orizzontale. Mobile/tablet (<992px): carosello NATIVO con
+   scroll-snap — è l'utente a scorrere con il dito.
+   ============================================================== */
+.metodo-section {
+  background-color: var(--navy);
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+}
+
+/* Card condivise tra desktop e mobile */
+.horizontal-panel .method-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 3.5rem 2.5rem;
+  width: 100%;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,.3);
+  transform: translateZ(0);
+  color: var(--white);
+  transition: transform var(--ease), box-shadow var(--ease), border-left-color var(--ease);
+}
+.horizontal-panel .method-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 50px rgba(0,0,0,.4);
+  border-left-color: var(--gold-dark);
+}
+.horizontal-panel .method-card .method-num {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  opacity: .9;
+  font-size: 3.5rem;
+  margin-bottom: .5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.horizontal-panel .method-card .method-title {
+  color: var(--white);
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+.horizontal-panel .method-card .method-text {
+  color: rgba(255,255,255,.75);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.img-panel-container {
+  width: 700px;
+  max-width: 100%;
+  height: 70vh;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0,0,0,.5);
+  border: 1px solid rgba(255,255,255,.1);
+}
+
+/* Hint "scorri" (visibile solo su mobile/tablet) */
+.metodo-swipe-hint {
+  display: none;
+}
+
+/* ---------- DESKTOP: pin GSAP ---------- */
+@media (min-width: 992px) {
+  .metodo-section { height: 100vh; }
+  /* Il blur è costoso: solo su desktop, dove non causa jank */
+  .horizontal-panel .method-card {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,.04);
+  }
+  .horizontal-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
+    height: 100vh;
+    align-items: center;
+    gap: 6vw;
+    padding: 0 15vw;
+  }
+  .horizontal-panel {
+    width: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+}
+
+/* ---------- MOBILE / TABLET: swipe manuale ---------- */
+@media (max-width: 991.98px) {
+  .metodo-section {
+    height: auto;
+    padding: clamp(3.5rem, 8vw, 5rem) 0;
+  }
+
+  .metodo-swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.75rem;
+    padding: 0 1.5rem;
+  }
+  .metodo-swipe-hint i { animation: hintSlide 1.6s ease-in-out infinite; }
+  @keyframes hintSlide {
+    0%, 100% { transform: translateX(0); opacity: .6; }
+    50%      { transform: translateX(6px); opacity: 1; }
+  }
+
+  /* Su mobile il vetro smerigliato diventa un fondo pieno (fluido) */
+  .horizontal-panel .method-card { background: rgba(37,58,107,.35); }
+
+  .horizontal-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    gap: 1.25rem;
+    padding: 0 1.5rem 1.5rem;
+    scrollbar-width: none;       /* Firefox */
+  }
+  .horizontal-wrapper::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+  .horizontal-panel {
+    scroll-snap-align: center;
+    width: min(82vw, 420px);
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .horizontal-panel .method-card {
+    padding: 2.5rem 1.75rem;
+    height: auto;
+    min-height: 340px;
+  }
+  .img-panel-container {
+    width: min(82vw, 420px);
+    height: 340px;
+  }
+}
+
+/* =============================================
+   RISULTATI
+   ============================================= */
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border-left: 1px solid rgba(255,255,255,.08);
+}
+.stat-block:first-child { border-left: none; }
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: .5rem;
+  display: block;
+}
+.stat-label {
+  font-size: .82rem;
+  color: rgba(255,255,255,.55);
+  letter-spacing: .3px;
+  text-align: center;
+  display: block;
+}
+.results-quote {
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,.1);
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+}
+.results-quote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  font-style: italic;
+  color: rgba(255,255,255,.82);
+  max-width: 680px;
+  margin: 0 auto .75rem;
+}
+.results-quote cite {
+  font-size: .83rem;
+  color: var(--gold);
+  font-style: normal;
+  letter-spacing: .5px;
+}
+
+/* =============================================
+   TESTIMONIANZE
+   ============================================= */
+.testimonial-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--ease);
+}
+.testimonial-card:hover { box-shadow: var(--shadow-md); }
+.testimonial-card--dark {
+  background: var(--navy);
+  border-color: var(--navy);
+}
+.testimonial-card--dark .testimonial-text  { color: rgba(255,255,255,.8); }
+.testimonial-card--dark .testimonial-author strong { color: var(--white); }
+.testimonial-card--dark .testimonial-author span   { color: rgba(255,255,255,.5); }
+.testimonial-card--dark .author-avatar { background: var(--gold); color: var(--navy); }
+
+.testimonial-stars {
+  color: var(--gold);
+  font-size: .88rem;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+.testimonial-text {
+  font-size: .95rem;
+  color: #4b5563;
+  line-height: 1.75;
+  font-style: italic;
+  flex: 1;
+  margin-bottom: 1.5rem;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--white);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.testimonial-author strong {
+  display: block;
+  font-size: .88rem;
+  color: var(--navy);
+}
+.testimonial-author span {
+  font-size: .76rem;
+  color: var(--muted);
+}
+
+/* =============================================
+   INSTAGRAM
+   ============================================= */
+.insta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.insta-cell {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  display: block;
+}
+.insta-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .4s ease;
+}
+.insta-cell:hover img { transform: scale(1.04); }
+
+/* =============================================
+   CONTATTI
+   ============================================= */
+.contact-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  justify-content: center;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+.contact-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: .8rem 1.75rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  gap: .2rem;
+  box-shadow: var(--shadow-sm);
+  /* Larghezza uniforme tra le pill, su ogni schermo */
+  flex: 1 1 260px;
+  max-width: 340px;
+  min-height: 74px;
+}
+.contact-label {
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.contact-pill a {
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--navy);
+  text-decoration: none;
+  transition: color var(--ease);
+  overflow-wrap: anywhere;
+}
+.contact-pill a:hover { color: var(--gold-dark); }
+
+/* =============================================
+   CALENDLY A SCOMPARSA
+   Chiuso di default (zero spazio bianco): si apre
+   con il bottone e l'altezza segue il contenuto.
+   ============================================= */
+.calendly-embed-wrap { text-align: center; }
+
+/* Chiuso e invisibile finché l'app di Calendly non è RENDERIZZATA.
+   L'iframe dentro ha comunque 700px reali (ritagliati da overflow):
+   così l'app si avvia correttamente anche mentre non si vede. */
+.calendly-inline-widget {
+  position: relative;
+  min-width: 320px;
+  max-width: 100%;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: height .5s ease;
+}
+.calendly-inline-widget iframe { height: 700px !important; }
+.calendly-inline-widget.is-ready { height: 700px; }
+.calendly-inline-widget.is-ready iframe { height: 100% !important; }
+
+/* Lo spinner a puntini di Calendly (fuori dall'iframe) mai visibile */
+.calendly-spinner, .calendly-spinner * {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* =============================================
+   RESPONSIVE HOME
+   ============================================= */
+@media (max-width: 767.98px) {
+  .hero { min-height: 78vh; min-height: 78svh; }
+  .stat-block { border-left: none; border-top: 1px solid rgba(255,255,255,.08); padding: 1.25rem 1rem; }
+  .stat-block:first-child { border-top: none; }
+  .ebook-book-showcase-img { width: 180px; }
+  .hero-actions .btn { flex: 1 1 auto; text-align: center; }
+  .contact-pill { flex: 1 1 100%; max-width: 420px; }
+  .about-badges { gap: .45rem; }
+  .testimonial-card { padding: 1.6rem; }
+}
