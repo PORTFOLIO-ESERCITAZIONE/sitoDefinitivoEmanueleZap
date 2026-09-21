@@ -63,12 +63,22 @@
   display: block;
 }
 
-/* Il duello: due meta, pro a sinistra e contro a destra. Anche sul
-   telefono restano affiancate, perche il confronto e il messaggio;
-   li ogni meta e un ritaglio verticale e object-fit fa il resto. */
+/* Il duello: due meta affiancate, pro a sinistra e contro a destra,
+   a ogni larghezza. Sotto i 992 px l altezza non e piu quella fissa
+   dell hero ma segue la larghezza della meta: 4:3 su tablet, quadrata
+   su telefono. Con l altezza fissa le meta erano strisce 9:22 e di
+   ogni clip 16:9 restava un terzo; quadrate se ne vede oltre la meta
+   e il blocco e alto la meta. */
 .hero-duello {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 991.98px) {
+  .hero-video.hero-duello { height: auto; }
+  .hero-lato { aspect-ratio: 4 / 3; }
+}
+@media (max-width: 575.98px) {
+  .hero-lato { aspect-ratio: 1 / 1; }
 }
 .hero-lato {
   position: relative;
@@ -220,13 +230,14 @@
 @media (max-width: 767.98px) {
   .hero-title { max-width: 100%; }
   .hero-actions .btn { flex: 1 1 auto; text-align: center; }
-  /* Due meta strette: l etichetta scende in basso e il velo in basso
-     e piu corto per non coprirla. */
-  .hero-etichetta { bottom: 1.6rem; }
+  /* Meta strette e basse: etichetta piccola in basso, velo in basso
+     corto per non coprirla. */
+  .hero-etichetta { bottom: .9rem; }
+  .hero-etichetta b { font-size: 1rem; }
   .hero-video-velo {
     background:
       linear-gradient(to bottom, rgba(19, 29, 51, .55) 0%, transparent 16%),
-      linear-gradient(to top, var(--navy) 0%, rgba(26, 39, 68, .4) 6%, transparent 18%);
+      linear-gradient(to top, var(--navy) 0%, rgba(26, 39, 68, .4) 6%, transparent 16%);
   }
 }
 

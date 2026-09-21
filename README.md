@@ -47,7 +47,7 @@ Le pagine:
 
 ## Cache: la versione negli URL
 
-I collegamenti a CSS e JS finiscono con `?v=20260921e`. Serve a un problema
+I collegamenti a CSS e JS finiscono con `?v=20260922c`. Serve a un problema
 concreto: se modifichi `home.css` senza cambiare il nome del file, i browser
 che hanno già visitato il sito continuano a usare la copia vecchia e non
 vedono le modifiche.
@@ -89,13 +89,17 @@ I due montaggi sono in simbiosi: 4 clip da 6,5 s l'una, dissolvenze da 0,8 s,
 546 fotogrammi esatti (22,7 s) entrambi, quindi le transizioni cadono nello
 stesso istante e il loop riparte insieme. In pagina `js/main.js` tiene il
 video di destra agganciato a quello di sinistra: se si allontana più di
-80 ms lo riporta sul suo tempo. Per cambiare la durata delle clip basta
-`PER_CLIP` in `catena_hero.py`, che controlla anche che ogni taglio stia
-dentro la sua sorgente. Le clip passano una
-nell'altra in dissolvenza da 0,8 s e la coda rientra in dissolvenza
-sull'inizio, quindi il riavvolgimento non si vede. Tutte sono corrette di
-colore verso il navy del sito; il lato "contro" è in più desaturato e velato
-di blu, così si sente che è il lato sbagliato.
+80 ms lo riporta sul suo tempo.
+
+**Per rifare i video** c'è `tools/`: `py -3 tools/scarica_clip.py` scarica le
+clip sorgente da Coverr in `tools/clip/` (cartella ignorata da git),
+`py -3 tools/catena_hero.py` monta pro e contro (1080p, 720p e poster) in
+`img/`. Serve `pip install imageio-ffmpeg`. La scaletta delle clip e
+`PER_CLIP` (secondi per clip) stanno in cima a `catena_hero.py`. Lo script
+ingrandisce e ritaglia ogni clip a 1920×1080 e toglie da solo le bande nere
+incise nei file (alcune clip di Coverr sono cinemascope): non adattarle mai
+con `pad`, altrimenti restano le bande — è quello che era successo
+all'hamburger.
 
 Per sostituirli con video girati con Emanuele bastano i sei file `hero-pro*` e
 `hero-contro*` più i due poster: il markup non va toccato.

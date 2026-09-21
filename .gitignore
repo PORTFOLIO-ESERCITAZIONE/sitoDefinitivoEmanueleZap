@@ -1,3 +1,7 @@
 .vscode/
 .DS_Store
 Thumbs.db
+
+# clip sorgente dei video dell hero: si riscaricano con tools/scarica_clip.py
+tools/clip/
+__pycache__/
