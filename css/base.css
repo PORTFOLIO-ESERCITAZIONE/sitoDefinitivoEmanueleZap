@@ -1,29 +1,83 @@
 /* ==============================================================
    BASE.CSS — Stili condivisi da TUTTE le pagine
-   (variabili, reset, bottoni, navbar, sezioni, footer,
-    cookie banner, cursore custom)
+   1. Token di design      5. Navbar + offcanvas
+   2. Ponte con Bootstrap  6. Sezioni
+   3. Reset & tipografia   7. Footer & utility
+   4. Pulsanti             8. Cookie banner
    ============================================================== */
 
 /* =============================================
-   VARIABILI & RESET
+   1. TOKEN DI DESIGN
+   La palette resta quella originale: navy + oro.
    ============================================= */
 :root {
-  --navy:       #1a2744;
-  --navy-light: #253a6b;
-  --gold:       #c8a951;
-  --gold-dark:  #a8893a;
-  --bg:         #f9f8f5;
-  --white:      #ffffff;
-  --text:       #1e1e1e;
-  --muted:      #6b7280;
-  --border:     #e5e3dc;
-  --radius:     12px;
-  --shadow-sm:  0 2px 8px rgba(26,39,68,.07);
-  --shadow-md:  0 8px 32px rgba(26,39,68,.13);
-  --ease:       0.25s ease;
+  /* Colori */
+  --navy:        #1a2744;
+  --navy-light:  #253a6b;
+  --navy-deep:   #131d33;
+  --gold:        #c8a951;
+  --gold-dark:   #a8893a;
+  /* Oro scurito per il testo su fondo chiaro: #a8893a si fermava a
+     contrasto 3.14, sotto la soglia di leggibilita. */
+  --gold-testo:  #7a6224;
+  --bg:          #f9f8f5;
+  --white:       #ffffff;
+  --text:        #1e1e1e;
+  --text-soft:   #4b5563;
+  --muted:       #6b7280;
+  --border:      #e5e3dc;
+
+  /* Colori su fondo scuro (evitano rgba sparse per tutto il codice) */
+  --on-dark:       rgba(255, 255, 255, .82);
+  --on-dark-mute:  rgba(255, 255, 255, .55);
+  --on-dark-faint: rgba(255, 255, 255, .30);
+  --hairline:      rgba(255, 255, 255, .10);
+
+  /* Forme */
+  --radius-sm:   8px;
+  --radius:      12px;
+  --radius-lg:   20px;
+  --radius-pill: 100px;
+
+  /* Profondita */
+  --shadow-sm: 0 2px 8px rgba(26, 39, 68, .07);
+  --shadow-md: 0 8px 32px rgba(26, 39, 68, .13);
+  --shadow-lg: 0 24px 64px rgba(26, 39, 68, .18);
+
+  /* Movimento */
+  --ease:     .25s ease;
+  --ease-out: .4s cubic-bezier(.22, 1, .36, 1);
+
+  /* Ritmo verticale delle sezioni */
+  --section-y:  clamp(3.5rem, 8vw, 6rem);
   --nav-height: 72px;
 }
 
+/* =============================================
+   2. PONTE CON BOOTSTRAP
+   Bootstrap legge le proprie variabili CSS: mappandole sulla
+   palette, i componenti nativi (offcanvas, focus ring, close,
+   modali, form) escono gia coerenti, senza override a colpi
+   di !important.
+   ============================================= */
+:root {
+  --bs-body-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --bs-body-color: var(--text);
+  --bs-body-bg: var(--white);
+  --bs-primary: var(--navy);
+  --bs-primary-rgb: 26, 39, 68;
+  --bs-link-color: var(--navy);
+  --bs-link-hover-color: var(--gold-dark);
+  --bs-border-color: var(--border);
+  --bs-border-radius: var(--radius-sm);
+  --bs-focus-ring-color: rgba(200, 169, 81, .45);
+  --bs-focus-ring-width: 3px;
+  --bs-emphasis-color: var(--navy);
+}
+
+/* =============================================
+   3. RESET & TIPOGRAFIA
+   ============================================= */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
@@ -33,13 +87,14 @@ html {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--bs-body-font-family);
   color: var(--text);
   background: var(--white);
   line-height: 1.7;
   max-width: 100%;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 @supports not (overflow-x: clip) {
@@ -50,8 +105,32 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
 img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-/* Le ancore (#chi-sono, #contatti...) non finiscono sotto la navbar sticky */
+/* Le ancore (#chi-sono, #contatti...) non finiscono sotto la navbar */
 section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
+
+/* Focus visibile e coerente su tutto il sito (accessibilita) */
+:focus-visible {
+  outline: 3px solid rgba(200, 169, 81, .55);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Salta al contenuto: primo stop da tastiera, invisibile col mouse */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 2000;
+  background: var(--navy);
+  color: var(--white);
+  padding: .7rem 1.2rem;
+  border-radius: var(--radius-sm);
+  font-size: .85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top var(--ease);
+}
+.skip-link:focus { top: 1rem; color: var(--white); }
 
 /* Rispetta chi preferisce animazioni ridotte */
 @media (prefers-reduced-motion: reduce) {
@@ -64,85 +143,119 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
 }
 
 /* =============================================
-   PULSANTI
+   4. PULSANTI
+   Base condivisa + varianti: meno regole duplicate.
    ============================================= */
-.btn-gold {
-  background: var(--gold);
-  color: var(--navy);
+.btn-gold,
+.btn-navy,
+.btn-outline-navy,
+.btn-outline-hero {
   font-weight: 600;
   font-size: .88rem;
   letter-spacing: .3px;
-  padding: .65rem 1.6rem;
-  border: none;
-  border-radius: 6px;
-  transition: background var(--ease), transform var(--ease);
+  padding: .7rem 1.7rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
+  text-decoration: none;
+  transition: background var(--ease), color var(--ease),
+              border-color var(--ease), box-shadow var(--ease-out),
+              transform var(--ease-out);
+}
+.btn-gold:hover,
+.btn-navy:hover,
+.btn-outline-navy:hover,
+.btn-outline-hero:hover { transform: translateY(-2px); }
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--navy);
+  box-shadow: 0 4px 14px rgba(200, 169, 81, .28);
 }
 .btn-gold:hover {
   background: var(--gold-dark);
   color: var(--navy);
-  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(200, 169, 81, .38);
 }
 
 .btn-navy {
   background: var(--navy);
   color: var(--white);
-  font-weight: 600;
-  font-size: .88rem;
-  padding: .65rem 1.6rem;
-  border: none;
-  border-radius: 6px;
-  transition: background var(--ease), transform var(--ease);
+  box-shadow: 0 4px 14px rgba(26, 39, 68, .22);
 }
 .btn-navy:hover {
   background: var(--navy-light);
   color: var(--white);
-  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(26, 39, 68, .3);
 }
 
 .btn-outline-navy {
   background: transparent;
   color: var(--navy);
-  font-weight: 600;
-  font-size: .88rem;
-  padding: .65rem 1.6rem;
-  border: 2px solid var(--navy);
-  border-radius: 6px;
-  transition: all var(--ease);
+  border-color: var(--navy);
 }
 .btn-outline-navy:hover {
   background: var(--navy);
   color: var(--white);
-  transform: translateY(-2px);
 }
 
 .btn-outline-hero {
   background: transparent;
-  color: rgba(255,255,255,.85);
-  font-weight: 600;
-  font-size: .88rem;
-  padding: .65rem 1.6rem;
-  border: 1.5px solid rgba(255,255,255,.35);
-  border-radius: 6px;
-  transition: all var(--ease);
-  text-decoration: none;
+  color: var(--on-dark);
+  border-color: rgba(255, 255, 255, .35);
 }
 .btn-outline-hero:hover {
-  background: rgba(255,255,255,.08);
+  background: rgba(255, 255, 255, .08);
   color: var(--white);
-  border-color: rgba(255,255,255,.6);
+  border-color: rgba(255, 255, 255, .6);
 }
 
 /* =============================================
-   NAVBAR
+   5. NAVBAR
+   Sulla home sta SOPRA l hero ed e trasparente; allo scroll
+   compare un vetro scuro sfocato. Sulle altre pagine il vetro
+   c'e da subito. Le voci sono sempre chiare: niente stati in
+   cui il testo finisce scuro su fondo scuro.
    ============================================= */
 #mainNav {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: .8rem 0;
-  transition: box-shadow var(--ease);
-  z-index: 1000;
+  /* Colori delle voci passati a Bootstrap tramite le sue variabili:
+     la regola .navbar-nav .nav-link ha specificita piu alta di .nav-link
+     e vincerebbe comunque. Meglio questo che rincorrerla con !important. */
+  --bs-navbar-color: rgba(255, 255, 255, .78);
+  --bs-navbar-hover-color: var(--white);
+  --bs-navbar-active-color: var(--white);
+
+  /* Vetro scuro, mai bianca. Prima allo scroll diventava una barra
+     bianca sopra l hero navy: stacco brutto, e a meta transizione le
+     voci restavano scure su fondo scuro, illeggibili. */
+  background: rgba(19, 29, 51, .88);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  padding: .75rem 0;
+  z-index: 1030;
+  transition: background var(--ease-out), box-shadow var(--ease-out),
+              padding var(--ease-out), border-color var(--ease-out);
 }
-#mainNav.scrolled { box-shadow: var(--shadow-md); }
+#mainNav.scrolled {
+  box-shadow: 0 10px 34px rgba(0, 0, 0, .3);
+  border-bottom-color: rgba(200, 169, 81, .3);
+  padding: .5rem 0;
+}
+
+/* Sopra l hero e del tutto trasparente: il vetro compare allo scroll */
+#mainNav.nav-over-hero {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+#mainNav.nav-over-hero:not(.scrolled) {
+  background: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
 
 .navbar-brand {
   display: flex;
@@ -154,46 +267,63 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
   font-family: 'Playfair Display', serif;
   font-weight: 700;
   font-size: 1.2rem;
-  color: var(--navy);
+  color: var(--white);
+  transition: color var(--ease-out);
 }
 .brand-subtitle {
   font-size: .68rem;
   font-weight: 500;
-  color: var(--gold-dark);
+  color: var(--gold);
   letter-spacing: 1px;
   text-transform: uppercase;
-}
-
-.navbar-nav-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  transition: color var(--ease-out);
 }
 
 .nav-link {
+  position: relative;
   font-size: .87rem;
   font-weight: 500;
-  color: var(--text) !important;
-  padding: .4rem .9rem !important;
+  /* Niente color qui: lo decide --bs-navbar-color su #mainNav. Una
+     regola .nav-link non batterebbe comunque .navbar-nav .nav-link
+     di Bootstrap, e lasciarla creava voci scure su fondo scuro. */
+  padding: .4rem .85rem;
   white-space: nowrap;
   transition: color var(--ease);
 }
+/* Sottolineatura oro che cresce dal centro (hover + voce attiva) */
 .nav-link::after {
   content: '';
-  display: block;
+  position: absolute;
+  left: .85rem;
+  right: .85rem;
+  bottom: .1rem;
   height: 2px;
   background: var(--gold);
   transform: scaleX(0);
-  transition: transform var(--ease);
+  transform-origin: center;
+  transition: transform var(--ease-out);
 }
-.nav-link:hover { color: var(--navy) !important; }
+.nav-link:hover { color: var(--white); }
 .nav-link:hover::after,
 .nav-link.active::after { transform: scaleX(1); }
+.nav-link.active { color: var(--white); font-weight: 600; }
 
+/* Barra di avanzamento lettura, incollata sotto la navbar */
+.nav-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+  pointer-events: none;
+}
+
+/* ---------- Hamburger ---------- */
 .navbar-toggler {
   border: none;
   background: transparent;
-  padding: .4rem;
+  padding: .45rem;
   box-shadow: none !important;
   display: flex;
   flex-direction: column;
@@ -204,106 +334,148 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
   display: block;
   width: 24px;
   height: 2px;
-  background: var(--navy);
+  background: var(--white);
   border-radius: 2px;
-  transition: transform var(--ease), opacity var(--ease);
+  transition: transform var(--ease-out), background var(--ease-out);
 }
-.navbar-toggler[aria-expanded="true"] .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.navbar-toggler[aria-expanded="true"] .hamburger-line:nth-child(2) { opacity: 0; }
-.navbar-toggler[aria-expanded="true"] .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.navbar-toggler:hover .hamburger-line:nth-child(1) { transform: translateX(-3px); }
+.navbar-toggler:hover .hamburger-line:nth-child(3) { transform: translateX(3px); }
 
-/* ---------- MENU MOBILE: pannello curato (Bootstrap collapse) ---------- */
-@media (max-width: 991.98px) {
-  .navbar-nav-center { position: static; transform: none; }
-
-  #mainNav .navbar-collapse {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: var(--shadow-md);
-    margin-top: .9rem;
-    padding: .5rem 1.25rem;
-  }
-
-  #mainNav .navbar-nav { gap: 0; }
-
-  #mainNav .nav-item + .nav-item { border-top: 1px solid rgba(26,39,68,.06); }
-
-  #mainNav .nav-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: .85rem .15rem !important;
-    font-size: .92rem;
-  }
-  /* Freccetta a destra al posto della riga sotto */
-  #mainNav .nav-link::after {
-    content: '\2192'; /* → */
-    height: auto;
-    background: none;
-    color: var(--gold);
-    font-size: .85rem;
-    opacity: 0;
-    transform: translateX(-6px);
-    transition: opacity var(--ease), transform var(--ease);
-  }
-  #mainNav .nav-link:hover::after,
-  #mainNav .nav-link:active::after,
-  #mainNav .nav-link.active::after {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  /* CTA Consulenza a tutta larghezza, staccata dalle voci */
-  #mainNav .nav-item.ms-2 {
-    margin: .35rem 0 .6rem !important;
-    border-top: none;
-    padding-top: .35rem;
-  }
-  #mainNav .nav-item.ms-2 .btn-gold {
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: .65rem 1rem !important;
-    font-size: .88rem !important;
-  }
+/* ---------- Menu mobile: pannello offcanvas ---------- */
+.nav-offcanvas {
+  --bs-offcanvas-width: min(84vw, 340px);
+  --bs-offcanvas-bg: var(--navy);
+  --bs-offcanvas-border-width: 0;
+  color: var(--white);
 }
-
-/* =============================================
-   SEZIONI — LAYOUT GENERALI (padding fluido)
-   ============================================= */
-.section-white { padding: clamp(3.5rem, 8vw, 6rem) 0; background: var(--white); }
-.section-light { padding: clamp(3.5rem, 8vw, 6rem) 0; background: var(--bg); }
-.section-navy  { padding: clamp(3.5rem, 8vw, 6rem) 0; background: var(--navy); }
-
-.section-eyebrow {
-  font-size: .75rem;
+.nav-offcanvas .offcanvas-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--hairline);
+}
+.nav-offcanvas .offcanvas-title {
+  font-size: .7rem;
   font-weight: 600;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: var(--gold-dark);
-  margin-bottom: .5rem;
+  color: var(--gold);
 }
+.nav-offcanvas .btn-close {
+  filter: invert(1) grayscale(1) brightness(2);
+  opacity: .6;
+}
+.nav-offcanvas .btn-close:hover { opacity: 1; }
+
+/* Sopra i 992px Bootstrap trasforma l offcanvas in una barra
+   orizzontale: questi stili valgono solo per il pannello mobile. */
+@media (max-width: 991.98px) {
+  .nav-offcanvas .offcanvas-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.5rem 1.75rem;
+  }
+  .nav-offcanvas .navbar-nav { width: 100%; }
+  .nav-offcanvas .nav-item + .nav-item { border-top: 1px solid rgba(255, 255, 255, .07); }
+  .nav-offcanvas .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .95rem .1rem;
+    font-size: 1rem;
+    color: var(--on-dark);
+  }
+  .nav-offcanvas .nav-link:hover,
+  .nav-offcanvas .nav-link.active { color: var(--white); }
+  /* Nel pannello la freccetta sostituisce la sottolineatura */
+  .nav-offcanvas .nav-link::after {
+    content: '\2192';
+    position: static;
+    height: auto;
+    background: none;
+    color: var(--gold);
+    font-size: .9rem;
+    transform: translateX(-6px);
+    opacity: 0;
+    transition: opacity var(--ease), transform var(--ease);
+  }
+  .nav-offcanvas .nav-link:hover::after,
+  .nav-offcanvas .nav-link.active::after { opacity: 1; transform: translateX(0); }
+
+  .nav-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .85rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+  }
+  .nav-cta .btn-gold { display: block; width: 100%; text-align: center; }
+}
+
+/* Su desktop il menu torna una riga sola, centrata */
+@media (min-width: 992px) {
+  .nav-offcanvas { --bs-offcanvas-bg: transparent; }
+  .nav-cta { display: flex; align-items: center; gap: 1rem; margin-left: .5rem; }
+  .nav-social { display: none; }
+}
+
+/* WhatsApp accanto al bottone "Consulenza" (aggiunto da Emanuele) */
+.nav-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  color: var(--on-dark);
+  font-size: .85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color var(--ease);
+}
+.nav-whatsapp i { font-size: 1.1rem; color: #25D366; }
+.nav-whatsapp:hover { color: var(--gold); }
+
+.nav-social {
+  display: flex;
+  gap: 1.1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--hairline);
+}
+.nav-social a {
+  color: var(--on-dark-mute);
+  font-size: 1.15rem;
+  text-decoration: none;
+  transition: color var(--ease);
+}
+.nav-social a:hover { color: var(--gold); }
+
+/* =============================================
+   6. SEZIONI — LAYOUT GENERALI
+   ============================================= */
+.section-white { padding: var(--section-y) 0; background: var(--white); }
+.section-light { padding: var(--section-y) 0; background: var(--bg); }
+.section-navy  { padding: var(--section-y) 0; background: var(--navy); }
+
+.section-eyebrow,
 .section-eyebrow-light {
   font-size: .75rem;
   font-weight: 600;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: var(--gold);
   margin-bottom: .5rem;
 }
-.section-title {
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: .75rem;
-}
+.section-eyebrow       { color: var(--gold-testo); }
+.section-eyebrow-light { color: var(--gold); }
+
+.section-title,
 .section-title-light {
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   font-weight: 700;
-  color: var(--white);
+  line-height: 1.2;
   margin-bottom: .75rem;
 }
+.section-title       { color: var(--navy); }
+.section-title-light { color: var(--white); }
+
 .section-subtitle {
   font-size: 1rem;
   color: var(--muted);
@@ -318,14 +490,121 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
 }
 .section-text {
   font-size: .97rem;
-  color: #4b5563;
+  color: var(--text-soft);
   line-height: 1.8;
   margin-bottom: 1rem;
+}
+/* Stesso paragrafo, su fondo navy */
+.section-text--light { color: var(--on-dark-mute); }
+
+/* =============================================
+   ATMOSFERA
+   Le sezioni piatte, chiare o scure che siano, stancano l occhio.
+   Qui si aggiungono due texture appena percettibili: una grana sul
+   navy, che gli toglie l aria di fondo piatto, e una trama di punti
+   dorati sulle sezioni chiare. Sono entrambe generate in CSS: nessuna
+   immagine da scaricare.
+   ============================================= */
+:root {
+  /* Rumore procedurale in SVG, incorporato: ~300 byte */
+  --grana: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+.section-navy,
+.metodo {
+  position: relative;
+  isolation: isolate;
+}
+/* Grana + alone dorato in alto: danno profondita al navy */
+.section-navy::before,
+.metodo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--grana);
+  opacity: .045;
+}
+.section-navy::after,
+.metodo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, rgba(200, 169, 81, .09), transparent 68%),
+    radial-gradient(ellipse 60% 50% at 85% 100%, rgba(37, 58, 107, .5), transparent 70%);
+}
+
+/* Trama dorata sulle sezioni chiare. Si attiva con la classe, così le
+   pagine legali restano pulite sotto il testo lungo. */
+.sezione-trama {
+  position: relative;
+  isolation: isolate;
+}
+.sezione-trama::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(200, 169, 81, .3) 1px, transparent 1.7px);
+  background-size: 26px 26px;
+  /* La trama sfuma verso il centro: non deve competere col testo */
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, transparent 30%, #000 95%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, transparent 30%, #000 95%);
+  opacity: .4;
+}
+
+/* Filetto dorato che separa le sezioni: un accento ricorrente */
+.filetto {
+  border: 0;
+  height: 1px;
+  margin: 0;
+  background: linear-gradient(90deg, transparent, rgba(200, 169, 81, .45), transparent);
+}
+
+/* Titoli a comparsa: ogni parola sale da dentro la sua finestrella.
+   Le classi le mette initTitoli(); senza JS il titolo resta normale. */
+.parola {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* le lettere con la coda (g, p, q) non devono essere tagliate */
+  padding-bottom: .12em;
+  margin-bottom: -.12em;
+}
+.parola-int {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Numero editoriale davanti all occhiello: 01 — CHI SONO */
+.section-num {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: .95em;
+  color: var(--gold);
+  opacity: .7;
+  margin-right: .85rem;
+  padding-right: .95rem;
+  position: relative;
+}
+.section-num::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: .55rem;
+  height: 1px;
+  background: currentColor;
 }
 
 .hero-subtitle {
   font-size: 1.08rem;
-  color: rgba(255,255,255,.72);
+  color: rgba(255, 255, 255, .72);
   max-width: 520px;
   line-height: 1.75;
   margin-bottom: 2.5rem;
@@ -338,9 +617,9 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
   text-align: center;
   margin-top: 3.5rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255,255,255,.07);
+  border-top: 1px solid rgba(255, 255, 255, .07);
   font-size: .78rem;
-  color: rgba(255,255,255,.28);
+  color: var(--on-dark-faint);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -349,15 +628,15 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
 }
 .ebook-coming a { color: var(--gold); text-decoration: none; transition: color var(--ease); }
 .ebook-coming a:hover { color: var(--gold-dark); }
-.ebook-coming-dot { color: rgba(255,255,255,.12); }
+.ebook-coming-dot { color: rgba(255, 255, 255, .12); }
 
 /* =============================================
-   FOOTER
+   7. FOOTER
    ============================================= */
 .site-footer {
-  background: var(--navy);
-  padding: 2rem 0;
-  border-top: 1px solid rgba(255,255,255,.07);
+  background: var(--navy-deep);
+  padding: 2.25rem 0;
+  border-top: 1px solid var(--hairline);
 }
 .footer-brand {
   font-family: 'Playfair Display', serif;
@@ -376,12 +655,12 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
 }
 .footer-copy {
   font-size: .78rem;
-  color: rgba(255,255,255,.38);
+  color: rgba(255, 255, 255, .38);
   margin: 0;
 }
 .footer-link {
   font-size: .78rem;
-  color: rgba(255,255,255,.38);
+  color: rgba(255, 255, 255, .38);
   text-decoration: none;
   transition: color var(--ease);
 }
@@ -401,10 +680,10 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
   position: fixed;
   right: 1.1rem;
   bottom: 1.1rem;
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  border: 1px solid rgba(200,169,81,.45);
+  border: 1px solid rgba(200, 169, 81, .45);
   background: var(--navy);
   color: var(--gold);
   font-size: .95rem;
@@ -412,11 +691,11 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
   align-items: center;
   justify-content: center;
   padding: 0;
-  z-index: 9000;
+  z-index: 1025;
   opacity: 0;
   visibility: hidden;
   transform: translateY(12px);
-  box-shadow: 0 6px 20px rgba(0,0,0,.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
   transition: opacity .3s ease, transform .3s ease, visibility .3s, background .3s ease;
 }
 .scroll-top-btn.visible {
@@ -425,22 +704,25 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
   transform: translateY(0);
 }
 .scroll-top-btn:hover { background: var(--navy-light); color: var(--gold); }
-.scroll-top-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* =============================================
-   COOKIE BANNER & MODALE PREFERENZE
+   8. COOKIE BANNER & MODALE PREFERENZE
    ============================================= */
 .cookie-banner {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 9999;
+  /* Scala z-index del sito, allineata a quella di Bootstrap:
+       1025 torna-su · 1030 navbar · 1035 banner cookie
+       1040 sfondo offcanvas · 1045 menu offcanvas · 1055 modale
+     Senza questo il banner coprirebbe i bottoni del menu aperto. */
+  z-index: 1035;
   background: var(--navy);
   border-top: 2px solid var(--gold);
   padding: 1rem 0;
   transform: translateY(100%);
-  transition: transform 0.4s ease;
+  transition: transform .4s ease;
 }
 .cookie-banner.visible { transform: translateY(0); }
 .cookie-banner-inner {
@@ -462,7 +744,7 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
 }
 .cookie-banner-text p {
   font-size: .8rem;
-  color: rgba(255,255,255,.62);
+  color: rgba(255, 255, 255, .62);
   margin: 0;
   line-height: 1.55;
 }
@@ -479,33 +761,43 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
   flex-wrap: wrap;
 }
 
-.btn-cookie-eq {
+/* Bottoni del banner e della modale: stessa base, larghezze diverse */
+.btn-cookie-eq,
+.btn-cookie-modal-eq {
   background: transparent;
   color: var(--white);
-  font-family: 'Inter', sans-serif;
-  font-size: .82rem;
+  font-family: var(--bs-body-font-family);
   font-weight: 600;
-  padding: .5rem 1.2rem;
-  border: 1.5px solid rgba(255,255,255,.5);
-  border-radius: 6px;
+  border: 1.5px solid rgba(255, 255, 255, .5);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background var(--ease), border-color var(--ease);
-  white-space: nowrap;
-  min-width: 105px;
   text-align: center;
+  white-space: nowrap;
+  transition: background var(--ease), border-color var(--ease);
 }
-.btn-cookie-eq:hover {
-  background: rgba(255,255,255,.1);
+.btn-cookie-eq:hover,
+.btn-cookie-modal-eq:hover {
+  background: rgba(255, 255, 255, .1);
   border-color: var(--white);
+}
+.btn-cookie-eq {
+  font-size: .82rem;
+  padding: .5rem 1.2rem;
+  min-width: 105px;
+}
+.btn-cookie-modal-eq {
+  flex: 1;
+  font-size: .8rem;
+  padding: .55rem .4rem;
 }
 
 .cookie-modal-content {
   background: var(--navy);
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid rgba(255, 255, 255, .12);
   border-radius: 14px;
 }
 .cookie-modal-header {
-  border-bottom: 1px solid rgba(255,255,255,.1);
+  border-bottom: 1px solid var(--hairline);
   padding: 1.4rem 1.75rem;
 }
 .cookie-modal-title {
@@ -517,35 +809,15 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
 .cookie-modal-body { padding: 1.5rem 1.75rem; }
 .cookie-modal-intro {
   font-size: .82rem;
-  color: rgba(255,255,255,.5);
+  color: rgba(255, 255, 255, .5);
   margin-bottom: 1.25rem;
   line-height: 1.6;
 }
 .cookie-modal-footer {
-  border-top: 1px solid rgba(255,255,255,.1);
+  border-top: 1px solid var(--hairline);
   padding: 1.1rem 1.75rem;
   display: flex;
   gap: .5rem;
-}
-
-.btn-cookie-modal-eq {
-  flex: 1;
-  background: transparent;
-  color: var(--white);
-  font-family: 'Inter', sans-serif;
-  font-size: .8rem;
-  font-weight: 600;
-  padding: .55rem .4rem;
-  border: 1.5px solid rgba(255,255,255,.5);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background var(--ease), border-color var(--ease);
-  text-align: center;
-  white-space: nowrap;
-}
-.btn-cookie-modal-eq:hover {
-  background: rgba(255,255,255,.1);
-  border-color: var(--white);
 }
 
 .cookie-pref-row {
@@ -554,7 +826,7 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
   justify-content: space-between;
   gap: 1.25rem;
   padding: 1rem 0;
-  border-bottom: 1px solid rgba(255,255,255,.07);
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
 }
 .cookie-pref-row:last-child { border-bottom: none; }
 .cookie-pref-info { flex: 1; }
@@ -568,7 +840,7 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
 .cookie-pref-desc {
   display: block;
   font-size: .78rem;
-  color: rgba(255,255,255,.48);
+  color: rgba(255, 255, 255, .48);
   line-height: 1.55;
 }
 .cookie-always-on {
@@ -597,7 +869,7 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
   display: block;
   width: 44px;
   height: 24px;
-  background: rgba(255,255,255,.18);
+  background: rgba(255, 255, 255, .18);
   border-radius: 12px;
   position: relative;
   transition: background var(--ease);
@@ -612,13 +884,9 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
   background: var(--white);
   border-radius: 50%;
   transition: transform var(--ease);
-  box-shadow: 0 1px 4px rgba(0,0,0,.3);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
 }
 .cookie-toggle input:checked + .cookie-toggle-track .cookie-toggle-thumb { transform: translateX(20px); }
-.cookie-toggle input:focus-visible + .cookie-toggle-track {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
-}
 
 @media (max-width: 767.98px) {
   .cookie-banner-actions { width: 100%; justify-content: stretch; }
@@ -626,41 +894,4 @@ section[id], [id].legal-hero { scroll-margin-top: var(--nav-height); }
 }
 @media (max-width: 480px) {
   .cookie-modal-footer { flex-direction: column; }
-}
-
-/* =============================================
-   CURSORE CUSTOM (solo mouse, mai su touch)
-   ============================================= */
-@media (pointer: fine) {
-  /* Il cursore nativo viene nascosto SOLO se il JS ha creato quello
-     custom (classe sul body): mai più pagina senza alcun cursore */
-  body.has-custom-cursor, body.has-custom-cursor * { cursor: none !important; }
-
-  /* Dentro gli iframe (Calendly ecc.) il mouse non è tracciabile:
-     lì si torna al cursore normale */
-  body.has-custom-cursor iframe,
-  body.has-custom-cursor .calendly-inline-widget,
-  body.has-custom-cursor .calendly-inline-widget * {
-    cursor: auto !important;
-  }
-
-  .custom-cursor {
-    position: fixed;
-    top: 0; left: 0;
-    width: 20px; height: 20px;
-    background-color: var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 999999;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, opacity 0.25s ease;
-    mix-blend-mode: difference;
-  }
-  .custom-cursor.hovered {
-    width: 60px; height: 60px;
-    background-color: rgba(200,169,81,.3);
-    border: 2px solid var(--gold);
-  }
-  /* Nascosto quando il mouse è su un iframe o fuori dalla finestra */
-  .custom-cursor.cursor-hidden { opacity: 0; }
 }

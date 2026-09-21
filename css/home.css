@@ -1,169 +1,321 @@
 /* ==============================================================
    HOME.CSS — Stili esclusivi della home page (index.html)
    Richiede base.css caricato prima.
+   1. Preparazione GSAP        5. Risultati
+   2. Hero + video astratto    6. Testimonianze
+   3. Chi sono                 7a. Palestra
+   4. Ebook + Il mio metodo    7b. Instagram
+                               8. Contatti
    ============================================================== */
 
-/* PREPARAZIONE GSAP (nasconde gli elementi prima dell'animazione;
-   main.js li rende visibili anche se GSAP non carica) */
-.gsap-hero-item > *, .gsap-fade {
+/* =============================================
+   1. PREPARAZIONE GSAP
+   Gli elementi partono nascosti SOLO se <html> ha la classe
+   js-anim, che uno script inline in <head> aggiunge subito.
+   Così, se il JS è disattivato o la CDN di GSAP non risponde,
+   il contenuto resta semplicemente visibile: mai una pagina
+   bianca. main.js ha anche un timer di sicurezza che li
+   riporta visibili se l'animazione non parte entro 2,5s.
+   ============================================= */
+.js-anim .gsap-hero-item > *,
+.js-anim .gsap-fade,
+.js-anim .gsap-stat {
   opacity: 0;
   visibility: hidden;
 }
-/* Suggerisce al browser di promuovere questi layer → animazioni fluide */
-.gsap-fade, .gsap-stat, .gsap-hero-item > * {
+/* Suggerisce al browser di promuovere questi layer: animazioni fluide */
+.gsap-fade,
+.gsap-stat,
+.gsap-hero-item > * {
   will-change: transform, opacity;
 }
 @media (prefers-reduced-motion: reduce) {
-  .gsap-hero-item > *, .gsap-fade { opacity: 1; visibility: visible; }
+  .js-anim .gsap-hero-item > *,
+  .js-anim .gsap-fade,
+  .js-anim .gsap-stat { opacity: 1; visibility: visible; }
 }
 
 /* =============================================
-   HERO
+   2. HERO — video a tutta larghezza + testo centrato
+   Il video tocca i due bordi del viewport perche .hero e a
+   larghezza piena; il testo resta dentro il container.
    ============================================= */
 .hero {
-  min-height: 92vh;
-  min-height: 92svh;
-  background: var(--navy);
-  display: flex;
-  align-items: center;
   position: relative;
+  background: var(--navy);
+  padding-bottom: clamp(3rem, 7vw, 5.5rem);
 }
-.hero-overlay {
+
+.hero-video {
+  position: relative;
+  width: 100%;
+  /* Alto ma non a schermo intero: titolo e bottoni devono entrare
+     nella prima schermata senza costringere a scorrere */
+  height: clamp(320px, 56vh, 700px);
+  overflow: hidden;
+  background: var(--navy-deep);
+}
+/* Vale per il <video> e anche per un <img> di ripiego */
+.hero-video-layer {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Il duello: due meta, pro a sinistra e contro a destra. Anche sul
+   telefono restano affiancate, perche il confronto e il messaggio;
+   li ogni meta e un ritaglio verticale e object-fit fa il resto. */
+.hero-duello {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.hero-lato {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--navy-deep);
+}
+.hero-lato .hero-video-layer {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 75% 50%, rgba(200,169,81,.1) 0%, transparent 60%);
-  pointer-events: none;
 }
-.hero-eyebrow {
-  font-size: .8rem;
-  font-weight: 500;
-  letter-spacing: 1.5px;
+/* La meta dei contro vira appena al freddo e al grigio: il lato
+   sbagliato si sente prima ancora di leggere l etichetta. */
+.hero-lato--contro .hero-video-layer {
+  filter: saturate(.78) contrast(1.05);
+}
+.hero-lato--contro::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: rgba(19, 29, 51, .18);
+}
+/* Filetto dorato sulla mezzeria */
+.hero-lato--contro { border-left: 1px solid rgba(200, 169, 81, .55); }
+
+.hero-vs {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  width: clamp(44px, 6vw, 64px);
+  height: clamp(44px, 6vw, 64px);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  color: var(--navy-deep);
+  background: var(--gold);
+  box-shadow: 0 0 0 6px rgba(19, 29, 51, .55), 0 14px 30px rgba(0, 0, 0, .45);
+}
+
+.hero-etichetta {
+  position: absolute;
+  left: clamp(.9rem, 2.5vw, 2rem);
+  bottom: clamp(2.2rem, 5vw, 3.4rem);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  color: var(--white);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .6);
+}
+.hero-etichetta b {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(1.05rem, 2.2vw, 1.7rem);
+  line-height: 1.1;
+}
+.hero-etichetta span {
+  font-size: clamp(.62rem, 1.1vw, .78rem);
+  font-weight: 600;
+  letter-spacing: 1.6px;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 1.2rem;
 }
+.hero-etichetta--contro {
+  left: auto;
+  right: clamp(.9rem, 2.5vw, 2rem);
+  align-items: flex-end;
+  text-align: right;
+}
+.hero-etichetta--contro span { color: rgba(255, 255, 255, .62); }
+.hero-video-velo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    /* In alto appena un'ombra: prima scendeva fino al 34% e sembrava
+       una fascia blu incollata sotto la navbar, staccata dal video.
+       La navbar ha gia il suo vetro scuro, non serve altro. */
+    linear-gradient(to bottom, rgba(19, 29, 51, .55) 0%, transparent 16%),
+    /* In basso sfuma nel navy della sezione: nessuna linea di stacco */
+    linear-gradient(to top, var(--navy) 0%, rgba(26, 39, 68, .4) 8%, transparent 26%);
+}
+
+.hero-testo {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  /* Prima risaliva dentro al video e "BIOLOGO NUTRIZIONISTA" finiva
+     sopra il suo bordo inferiore. Ora resta sotto, con aria. */
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.1rem;
+}
+/* Due filetti, uno per lato: da centrato uno solo sbilanciava */
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+  opacity: .7;
+}
+
 .hero-title {
-  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-size: clamp(2.1rem, 4.6vw, 3.9rem);
   font-weight: 700;
   color: var(--white);
-  line-height: 1.15;
-  margin-bottom: 1.5rem;
+  line-height: 1.14;
+  margin: 0 auto 1.3rem;
+  max-width: 24ch;
 }
 .hero-title em { font-style: italic; color: var(--gold); }
+
+.hero-subtitle {
+  font-size: 1.06rem;
+  color: rgba(255, 255, 255, .72);
+  max-width: 620px;
+  line-height: 1.75;
+  margin: 0 auto 2.3rem;
+}
+/* La frase di battaglia: il consumismo e il nemico numero 1 */
+.hero-manifesto { max-width: 680px; }
+.hero-manifesto strong { color: var(--gold); font-weight: 600; }
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: .75rem;
 }
-.hero-photo-frame {
-  width: min(390px, 100%);
-  height: 520px;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1.5px solid rgba(200,169,81,.35);
+
+@media (max-width: 767.98px) {
+  .hero-title { max-width: 100%; }
+  .hero-actions .btn { flex: 1 1 auto; text-align: center; }
+  /* Due meta strette: l etichetta scende in basso e il velo in basso
+     e piu corto per non coprirla. */
+  .hero-etichetta { bottom: 1.6rem; }
+  .hero-video-velo {
+    background:
+      linear-gradient(to bottom, rgba(19, 29, 51, .55) 0%, transparent 16%),
+      linear-gradient(to top, var(--navy) 0%, rgba(26, 39, 68, .4) 6%, transparent 18%);
+  }
+}
+
+/* =============================================
+   3. CHI SONO
+   ============================================= */
+/* Foto con cornice dorata sfalsata dietro: rompe la simmetria del
+   rettangolo e dà profondità senza aggiungere immagini. */
+.about-photo {
   position: relative;
-  box-shadow:
-    0 24px 64px rgba(0,0,0,.5),
-    0 0 0 1px rgba(200,169,81,.08),
-    inset 0 0 0 1px rgba(255,255,255,.03);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
-  cursor: default;
-}
-.hero-photo-frame:hover {
-  border-color: rgba(200,169,81,.7);
-  box-shadow:
-    0 24px 64px rgba(0,0,0,.55),
-    0 0 40px rgba(200,169,81,.12),
-    inset 0 0 0 1px rgba(255,255,255,.04);
-}
-
-/* =============================================
-   CAROUSEL IMMAGINI
-   ============================================= */
-#ebookCarousel {
-  height: 520px;
-  border-radius: 20px !important;
-  overflow: hidden !important;
-}
-#ebookCarousel.carousel-fade .carousel-item {
-  transition: opacity 0.85s ease !important;
-}
-.carousel-img {
+  isolation: isolate;
+  /* Senza tetto la foto cresce con la colonna: a 1600px arrivava a
+     545x727 e schiacciava il testo accanto. */
   width: 100%;
-  height: 520px;
-  object-fit: cover;
-  object-position: center center;
-  display: block;
+  max-width: 380px;
+  margin-inline: auto;
 }
-.carousel-overlay {
+.about-photo::before {
+  content: '';
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 90px;
-  background: linear-gradient(to top, rgba(10,15,30,.85), transparent);
-  pointer-events: none;
-  z-index: 5;
+  z-index: -1;
+  inset: 1.6rem -1.6rem -1.6rem 1.6rem;
+  border: 1px solid rgba(200, 169, 81, .55);
+  border-radius: var(--radius);
 }
-.carousel-progress-bar {
-  position: absolute;
-  bottom: 0; left: 0;
-  height: 3px;
-  width: 0%;
-  background: linear-gradient(90deg, var(--gold-dark), var(--gold));
-  z-index: 15;
-  border-radius: 0 2px 2px 0;
-}
-.carousel-dot-wrap {
-  position: absolute;
-  bottom: 1.1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 5px;
-  z-index: 10;
-}
-.c-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(255,255,255,.35);
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: width .3s ease, background .3s ease;
-}
-.c-dot.active {
-  background: var(--gold);
-  width: 22px;
-}
-
-/* =============================================
-   CHI SONO
-   ============================================= */
 .about-photo-frame {
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 3 / 4;
   border-radius: var(--radius);
   overflow: hidden;
   border: 2px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+/* Il ritratto e 9:16 e la cornice 3:4: si perde un quarto dell altezza.
+   Centrato tagliava la testa (i capelli partono al 10%); ancorato in
+   alto al 20% il taglio va quasi tutto sotto, dove c e solo busto. */
+.about-photo-frame img { object-position: center 20%; }
+/* Etichetta sovrapposta in basso: dà un tocco editoriale al ritratto */
+.about-firma {
+  position: absolute;
+  left: -1rem;
+  bottom: 1.4rem;
+  z-index: 1;
+  background: var(--navy);
+  color: var(--white);
+  padding: .7rem 1.2rem;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  box-shadow: var(--shadow-md);
+}
+.about-firma strong {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.about-firma span {
+  display: block;
+  font-size: .68rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+@media (max-width: 575.98px) {
+  /* Lo scarto a destra deve stare dentro i 12px di padding del
+     contenitore, altrimenti overflow-x: clip taglia via la cornice. */
+  .about-photo::before { inset: .7rem -.5rem -.7rem .7rem; }
+  .about-firma { left: -.4rem; }
 }
 .about-badges {
   display: flex;
   flex-wrap: wrap;
   gap: .5rem;
-  margin-top: 1.5rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
 }
 .badge-pill {
   font-size: .75rem;
   font-weight: 500;
   color: var(--navy);
-  background: rgba(26,39,68,.06);
-  border: 1px solid rgba(26,39,68,.12);
+  background: rgba(26, 39, 68, .06);
+  border: 1px solid rgba(26, 39, 68, .12);
   padding: .3rem .9rem;
-  border-radius: 100px;
+  border-radius: var(--radius-pill);
 }
 
 /* =============================================
-   EBOOK (sezione home)
+   4a. EBOOK (sezione sospesa, stili conservati)
    ============================================= */
 .ebook-book-showcase {
   position: relative;
@@ -176,7 +328,7 @@
   height: auto;
   border-radius: 3px 10px 10px 3px;
   transform: rotate(-3deg);
-  box-shadow: 10px 18px 50px rgba(0,0,0,.65);
+  box-shadow: 10px 18px 50px rgba(0, 0, 0, .65);
   animation: bookFloat 5s ease-in-out infinite;
 }
 .ebook-book-shadow {
@@ -186,7 +338,7 @@
   transform: translateX(-50%);
   width: 170px;
   height: 26px;
-  background: rgba(0,0,0,.5);
+  background: rgba(0, 0, 0, .5);
   filter: blur(16px);
   border-radius: 50%;
   animation: shadowPulse 5s ease-in-out infinite;
@@ -209,7 +361,7 @@
 }
 .ebook-features-list li {
   font-size: .87rem;
-  color: rgba(255,255,255,.68);
+  color: rgba(255, 255, 255, .68);
   padding-left: 1.2rem;
   position: relative;
   line-height: 1.5;
@@ -217,8 +369,10 @@
 .ebook-features-list li::before {
   content: '';
   position: absolute;
-  left: 0; top: .5rem;
-  width: 5px; height: 5px;
+  left: 0;
+  top: .5rem;
+  width: 5px;
+  height: 5px;
   background: var(--gold);
   border-radius: 50%;
 }
@@ -231,184 +385,199 @@
 }
 .ebook-shopify-note {
   font-size: .7rem;
-  color: rgba(255,255,255,.28);
+  color: var(--on-dark-faint);
   margin: 0;
 }
 
 /* ==============================================================
-   IL MIO METODO — SCROLL ORIZZONTALE
-   Desktop (≥992px): pin GSAP, lo scroll verticale guida quello
-   orizzontale. Mobile/tablet (<992px): carosello NATIVO con
-   scroll-snap — è l'utente a scorrere con il dito.
+   4b. IL MIO METODO — COLONNA FERMA + FASI CHE SCORRONO
+   La colonna di sinistra resta agganciata (position: sticky) mentre
+   a destra passano le tre fasi. Niente pin di GSAP, niente scroll
+   orizzontale: la pagina non si blocca mai e l'effetto è identico
+   su ogni larghezza di schermo.
    ============================================================== */
-.metodo-section {
-  background-color: var(--navy);
-  overflow: hidden;
-  padding: 0;
-  width: 100%;
+.metodo {
+  position: relative;
+  background: var(--navy);
+  padding: var(--section-y) 0 calc(var(--section-y) + 2rem);
+  /* NIENTE overflow: hidden qui. Su un antenato annulla la
+     position: sticky della colonna di sinistra, che era il motivo
+     per cui l indice scorreva via invece di restare fermo. */
 }
 
-/* Card condivise tra desktop e mobile */
-.horizontal-panel .method-card {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  border-left: 4px solid var(--gold);
-  border-radius: var(--radius);
-  padding: 3.5rem 2.5rem;
-  width: 100%;
-  height: 420px;
+/* ---------- Colonna ferma ---------- */
+.metodo-intro { padding-top: .5rem; }
+
+@media (min-width: 992px) {
+  .metodo-intro {
+    position: sticky;
+    top: calc(var(--nav-height) + 3.5rem);
+  }
+}
+
+/* Indice delle fasi: si accende quella che si sta leggendo */
+.metodo-indice {
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,.3);
-  transform: translateZ(0);
+  gap: .2rem;
+}
+.metodo-indice li {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  padding: .7rem 0 .7rem 1rem;
+  border-left: 2px solid var(--hairline);
+  color: var(--on-dark-faint);
+  transition: color var(--ease-out), border-color var(--ease-out),
+              padding-left var(--ease-out);
+}
+.metodo-indice li.attiva {
   color: var(--white);
-  transition: transform var(--ease), box-shadow var(--ease), border-left-color var(--ease);
+  border-left-color: var(--gold);
+  padding-left: 1.5rem;
 }
-.horizontal-panel .method-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 30px 50px rgba(0,0,0,.4);
-  border-left-color: var(--gold-dark);
-}
-.horizontal-panel .method-card .method-num {
+.mi-num {
   font-family: 'Playfair Display', serif;
+  font-size: .85rem;
   color: var(--gold);
-  opacity: .9;
-  font-size: 3.5rem;
-  margin-bottom: .5rem;
-  font-weight: 700;
-  line-height: 1;
+  opacity: .55;
+  transition: opacity var(--ease-out);
 }
-.horizontal-panel .method-card .method-title {
-  color: var(--white);
-  font-size: 1.8rem;
-  margin-bottom: 1.2rem;
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-}
-.horizontal-panel .method-card .method-text {
-  color: rgba(255,255,255,.75);
-  font-size: 1.05rem;
-  line-height: 1.8;
-  margin: 0;
+.metodo-indice li.attiva .mi-num { opacity: 1; }
+.mi-testo {
+  font-size: .9rem;
+  font-weight: 500;
+  letter-spacing: .5px;
 }
 
-.img-panel-container {
-  width: 700px;
-  max-width: 100%;
-  height: 70vh;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 25px 50px rgba(0,0,0,.5);
-  border: 1px solid rgba(255,255,255,.1);
-}
-
-/* Hint "scorri" (visibile solo su mobile/tablet) */
-.metodo-swipe-hint {
-  display: none;
-}
-
-/* ---------- DESKTOP: pin GSAP ---------- */
-@media (min-width: 992px) {
-  .metodo-section { height: 100vh; }
-  /* Il blur è costoso: solo su desktop, dove non causa jank */
-  .horizontal-panel .method-card {
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    background: rgba(255,255,255,.04);
-  }
-  .horizontal-wrapper {
-    display: flex;
-    flex-wrap: nowrap;
-    width: max-content;
-    height: 100vh;
-    align-items: center;
-    gap: 6vw;
-    padding: 0 15vw;
-  }
-  .horizontal-panel {
-    width: 450px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-  }
-}
-
-/* ---------- MOBILE / TABLET: swipe manuale ---------- */
 @media (max-width: 991.98px) {
-  .metodo-section {
-    height: auto;
-    padding: clamp(3.5rem, 8vw, 5rem) 0;
-  }
+  /* Su mobile l'indice non serve: le fasi si susseguono e basta */
+  .metodo-indice { display: none; }
+}
 
-  .metodo-swipe-hint {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: .5rem;
-    font-size: .75rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.75rem;
-    padding: 0 1.5rem;
-  }
-  .metodo-swipe-hint i { animation: hintSlide 1.6s ease-in-out infinite; }
-  @keyframes hintSlide {
-    0%, 100% { transform: translateX(0); opacity: .6; }
-    50%      { transform: translateX(6px); opacity: 1; }
-  }
+/* ---------- Le fasi ---------- */
+.metodo-fasi {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  padding-top: 1rem;
+}
 
-  /* Su mobile il vetro smerigliato diventa un fondo pieno (fluido) */
-  .horizontal-panel .method-card { background: rgba(37,58,107,.35); }
+.fase {
+  position: relative;
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .015));
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: border-color var(--ease-out), transform var(--ease-out),
+              box-shadow var(--ease-out);
+}
+.fase:hover {
+  border-color: rgba(200, 169, 81, .45);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, .35);
+}
+/* Filo dorato verticale sul bordo sinistro, si allunga all'hover */
+.fase::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 2rem;
+  bottom: 2rem;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity var(--ease-out), top var(--ease-out), bottom var(--ease-out);
+}
+.fase:hover::before { opacity: 1; top: .75rem; bottom: .75rem; }
 
-  .horizontal-wrapper {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: 1.5rem;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    gap: 1.25rem;
-    padding: 0 1.5rem 1.5rem;
-    scrollbar-width: none;       /* Firefox */
-  }
-  .horizontal-wrapper::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+/* Una fase su due rientra: la colonna smette di essere una pila
+   di rettangoli allineati */
+@media (min-width: 992px) {
+  .fase--rientrata { margin-left: clamp(2rem, 6vw, 5rem); }
+}
 
-  .horizontal-panel {
-    scroll-snap-align: center;
-    width: min(82vw, 420px);
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .horizontal-panel .method-card {
-    padding: 2.5rem 1.75rem;
-    height: auto;
-    min-height: 340px;
-  }
-  .img-panel-container {
-    width: min(82vw, 420px);
-    height: 340px;
-  }
+.fase-num {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: .8;
+  margin-bottom: 1rem;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(200, 169, 81, .7);
+  letter-spacing: 2px;
+}
+.fase-titolo {
+  color: var(--white);
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-weight: 700;
+  margin-bottom: .9rem;
+}
+.fase-testo {
+  color: rgba(255, 255, 255, .72);
+  font-size: 1rem;
+  line-height: 1.8;
+  margin: 0 0 1.4rem;
+}
+.fase-voci {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.fase-voci li {
+  font-size: .74rem;
+  font-weight: 500;
+  letter-spacing: .5px;
+  color: var(--on-dark);
+  background: rgba(200, 169, 81, .1);
+  border: 1px solid rgba(200, 169, 81, .28);
+  border-radius: var(--radius-pill);
+  padding: .3rem .85rem;
 }
 
 /* =============================================
-   RISULTATI
+   5. RISULTATI
    ============================================= */
+/* Navy piu profondo: separa questa banda da quella del metodo, che
+   altrimenti sembrano un unico blocco scuro lungo due schermate. */
+.sezione-profonda { background: var(--navy-deep); }
 .stat-block {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem;
-  border-left: 1px solid rgba(255,255,255,.08);
+  padding: 2rem 1.25rem;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, .03);
+  height: 100%;
+  transition: border-color var(--ease-out), background var(--ease-out), transform var(--ease-out);
 }
-.stat-block:first-child { border-left: none; }
+.stat-block:hover {
+  border-color: rgba(200, 169, 81, .45);
+  background: rgba(200, 169, 81, .05);
+  transform: translateY(-4px);
+}
+/* Filetto dorato in cima a ogni cella */
+.stat-block::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 25%;
+  right: 25%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .7;
+}
 
 .stat-number {
   font-family: 'Playfair Display', serif;
@@ -421,22 +590,23 @@
 }
 .stat-label {
   font-size: .82rem;
-  color: rgba(255,255,255,.55);
+  color: var(--on-dark-mute);
   letter-spacing: .3px;
   text-align: center;
   display: block;
 }
+
 .results-quote {
   text-align: center;
-  border-top: 1px solid rgba(255,255,255,.1);
-  margin-top: 3rem;
+  border-top: 1px solid var(--hairline);
+  margin: 3rem 0 0;
   padding-top: 2.5rem;
 }
 .results-quote p {
   font-family: 'Playfair Display', serif;
   font-size: clamp(1.1rem, 2vw, 1.45rem);
   font-style: italic;
-  color: rgba(255,255,255,.82);
+  color: rgba(255, 255, 255, .82);
   max-width: 680px;
   margin: 0 auto .75rem;
 }
@@ -448,26 +618,61 @@
 }
 
 /* =============================================
-   TESTIMONIANZE
+   6. TESTIMONIANZE
    ============================================= */
 .testimonial-card {
+  /* --sfalso: quanto la card scende rispetto alle altre. Sta in una
+     variabile perche l hover deve sommarsi allo sfalsamento invece di
+     azzerarlo. */
+  --sfalso: 0rem;
+  position: relative;
+  overflow: hidden;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 2rem;
+  padding: 2.25rem 2rem 2rem;
   height: 100%;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  transition: box-shadow var(--ease);
+  transform: translateY(var(--sfalso));
+  transition: box-shadow var(--ease-out), transform var(--ease-out), border-color var(--ease-out);
 }
-.testimonial-card:hover { box-shadow: var(--shadow-md); }
+.testimonial-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(200, 169, 81, .5);
+  transform: translateY(calc(var(--sfalso) - 6px));
+}
+/* Virgolettone in filigrana nell angolo */
+.testimonial-card::before {
+  content: 'C';
+  position: absolute;
+  top: -1.2rem;
+  right: .9rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 7rem;
+  line-height: 1;
+  color: var(--gold);
+  opacity: .16;
+  pointer-events: none;
+}
+.testimonial-card--dark::before { opacity: .3; }
+
+/* Da tablet in su la card centrale scende: la fila smette di essere
+   tre rettangoli allineati */
+/* Lo sfalsamento vale solo quando le colonne sono tre: a due
+   colonne sfaserebbe la griglia invece di ravvivarla. */
+@media (min-width: 992px) {
+  #pazienti .row > div:nth-child(2) .testimonial-card { --sfalso: 2.25rem; }
+  #pazienti .row { padding-bottom: 2.25rem; }
+}
 .testimonial-card--dark {
   background: var(--navy);
   border-color: var(--navy);
 }
-.testimonial-card--dark .testimonial-text  { color: rgba(255,255,255,.8); }
+.testimonial-card--dark .testimonial-text { color: rgba(255, 255, 255, .8); }
 .testimonial-card--dark .testimonial-author strong { color: var(--white); }
-.testimonial-card--dark .testimonial-author span   { color: rgba(255,255,255,.5); }
+.testimonial-card--dark .author-role { color: var(--on-dark-mute); }
 .testimonial-card--dark .author-avatar { background: var(--gold); color: var(--navy); }
 
 .testimonial-stars {
@@ -478,11 +683,11 @@
 }
 .testimonial-text {
   font-size: .95rem;
-  color: #4b5563;
+  color: var(--text-soft);
   line-height: 1.75;
   font-style: italic;
   flex: 1;
-  margin-bottom: 1.5rem;
+  margin: 0 0 1.5rem;
 }
 .testimonial-author {
   display: flex;
@@ -507,38 +712,400 @@
   display: block;
   font-size: .88rem;
   color: var(--navy);
+  line-height: 1.35;
 }
-.testimonial-author span {
+.author-role {
+  display: block;
   font-size: .76rem;
   color: var(--muted);
+  line-height: 1.35;
 }
 
 /* =============================================
-   INSTAGRAM
+   7a. SALUTE METABOLICA — solo testo, niente foto
+   Sta sotto "Chi sono". A sinistra titolo e temi a chip; a destra
+   la presentazione in prima persona.
    ============================================= */
-.insta-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
-  border-radius: 14px;
-  overflow: hidden;
+.studio-temi {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: 0;
+  margin: 1.6rem 0 0;
 }
-.insta-cell {
+.studio-temi li {
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .4px;
+  color: var(--on-dark-mute);
+  padding: .4rem .8rem;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .03);
+}
+/* I primi quattro sono i contaminanti: si distinguono col filetto oro */
+.studio-temi li:nth-child(-n+4) {
+  color: var(--gold);
+  border-color: rgba(200, 169, 81, .45);
+}
+
+.studio-prosa p {
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--on-dark-mute);
+  margin: 0 0 1.15rem;
+}
+.studio-prosa .studio-apertura {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.2rem, 1.7vw, 1.45rem);
+  line-height: 1.5;
+  color: var(--white);
+}
+.studio-prosa .studio-chiusa {
+  margin-top: 1.6rem;
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--gold);
+  color: var(--white);
+}
+
+/* =============================================
+   7b. INSTAGRAM — mockup del telefono
+   Schermata scura come il profilo reale: una griglia di reel che
+   scorre e un dito che tocca "Segui". Tutto CSS, nessun file video:
+   nitido a ogni densita di schermo e con i testi modificabili
+   direttamente nell HTML.
+
+   Il ciclo dura 11s ed e sincronizzato fra tre animazioni:
+     0 - 30%   il contenuto scorre verso il basso
+    30 - 42%   resta fermo sulla griglia
+    42 - 56%   risale in cima al profilo
+    56 - 70%   il dito entra e preme "Segui"
+    70 - 87%   il bottone e nello stato "Segui gia"
+    87 - 100%  tutto torna come all inizio
+   ============================================= */
+.ig-telefono {
   position: relative;
-  aspect-ratio: 1;
-  overflow: hidden;
   display: block;
+  width: min(300px, 82%);
+  margin: 0 auto;
+  aspect-ratio: 9 / 19;
+  padding: 10px;
+  border-radius: 38px;
+  background: linear-gradient(160deg, #2b3654, #10182b);
+  box-shadow:
+    0 34px 70px rgba(26, 39, 68, .35),
+    0 0 0 1px rgba(200, 169, 81, .35),
+    inset 0 1px 0 rgba(255, 255, 255, .14);
+  text-decoration: none;
+  transition: transform var(--ease-out), box-shadow var(--ease-out);
 }
-.insta-cell img {
+.ig-telefono:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 44px 84px rgba(26, 39, 68, .42),
+    0 0 0 1px rgba(200, 169, 81, .7),
+    inset 0 1px 0 rgba(255, 255, 255, .14);
+}
+/* Tacca in alto */
+.ig-telefono::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 78px;
+  height: 5px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, .6);
+  z-index: 3;
+}
+
+.ig-schermo {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  /* scuro come il profilo vero, e stacca dalla sezione chiara */
+  background: #000;
+  color: #f5f5f5;
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.ig-scroll {
+  display: block;
+  padding-top: 24px;
+  animation: igScorri 11s cubic-bezier(.65, 0, .35, 1) infinite;
+}
+
+/* ---------- testata: avatar, nome, spunta ---------- */
+.ig-testata {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 4px 11px 9px;
+}
+.ig-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  padding: 2px;
+  /* Anello sfumato delle storie, come sul profilo vero: il padding
+     lascia il filo nero fra anello e foto, come fa Instagram. */
+  background: linear-gradient(#000, #000) padding-box,
+              linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7) border-box;
+  border: 2px solid transparent;
+}
+.ig-nome {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.ig-nome i { color: #3897f0; font-size: 9px; }
+.ig-punti { color: #f5f5f5; font-size: 11px; }
+
+/* ---------- bio ---------- */
+.ig-bio { display: block; padding: 0 11px 9px; }
+.ig-bio b { display: block; font-size: 10px; font-weight: 600; margin-bottom: 4px; }
+.ig-bio small { display: block; font-size: 8.5px; color: #d4d4d4; }
+.ig-threads {
+  display: inline-block;
+  font-size: 8px;
+  color: #a8a8a8;
+  border: 1px solid #363636;
+  border-radius: 6px;
+  padding: 1px 6px;
+  margin-bottom: 5px;
+}
+.ig-sito { color: #7cb3ff !important; font-weight: 500; }
+.ig-sito i { margin-right: 2px; }
+
+/* ---------- storie in evidenza ---------- */
+.ig-storie {
+  display: flex;
+  gap: 8px;
+  padding: 4px 11px 10px;
+  overflow: hidden;
+}
+.ig-storia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 42px;
+  flex-shrink: 0;
+}
+.ig-storia img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #363636;
+}
+.ig-storia small {
+  font-size: 6.5px;
+  color: #d4d4d4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ---------- follower e seguiti ---------- */
+.ig-conteggi {
+  display: flex;
+  padding: 6px 11px 10px;
+}
+.ig-numeri {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+.ig-numeri b { font-size: 12px; font-weight: 700; }
+.ig-numeri small { font-size: 8px; color: #a8a8a8; }
+
+/* ---------- bottoni ---------- */
+.ig-azioni { display: flex; gap: 6px; padding: 0 11px 10px; }
+/* Guscio attorno al bottone "Segui": serve da riferimento al dito.
+   Non si puo usare .ig-btn perche ha overflow hidden e taglierebbe
+   il cerchio e la sua onda. */
+.ig-btn-guscio {
+  position: relative;
+  flex: 1;
+  display: flex;
+}
+.ig-btn {
+  position: relative;
+  flex: 1;
+  height: 26px;
+  border-radius: 8px;
+  font-size: 9.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.ig-btn--muto { background: #363636; color: #f5f5f5; }
+/* I due stati stanno uno sopra l altro e si scambiano al tocco */
+.ig-btn-a,
+.ig-btn-b {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+.ig-btn-a {
+  background: #3897f0;
+  color: #fff;
+  animation: igStatoA 11s linear infinite;
+}
+.ig-btn-b {
+  background: #363636;
+  color: #f5f5f5;
+  opacity: 0;
+  animation: igStatoB 11s linear infinite;
+}
+
+/* ---------- schede ---------- */
+.ig-schede {
+  display: flex;
+  border-top: 1px solid #262626;
+}
+.ig-schede i {
+  flex: 1;
+  text-align: center;
+  padding: 7px 0;
+  font-size: 12px;
+  color: #737373;
+}
+.ig-schede i.attiva {
+  color: #f5f5f5;
+  box-shadow: inset 0 -1.5px 0 #f5f5f5;
+}
+
+/* ---------- griglia dei reel ---------- */
+.ig-griglia {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.ig-post {
+  position: relative;
+  display: block;
+  /* 3:4 come le anteprime del profilo vero. Le copertine arrivano 9:16
+     (14 su 16): il ritaglio toglie un po' sopra e sotto, mai i lati. */
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+.ig-post img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .4s ease;
+  /* leggermente verso il basso: le scritte dei reel stanno li */
+  object-position: center 56%;
+  display: block;
 }
-.insta-cell:hover img { transform: scale(1.04); }
+/* triangolino: sono reel, come sul profilo vero */
+.ig-post::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border-style: solid;
+  border-width: 4px 0 4px 7px;
+  border-color: transparent transparent transparent #fff;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .6));
+}
+
+/* ---------- il dito ---------- */
+.ig-dito {
+  position: absolute;
+  /* Centro del bottone "Segui", di cui il dito e figlio: mezzeria
+     esatta a qualunque larghezza. Prima erano percentuali misurate sul
+     telefono intero e sul mobile, dove il telefono si stringe ma i
+     testi restano in px, il tocco finiva fuori dal riquadro. */
+  left: 50%;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .28);
+  border: 2px solid rgba(255, 255, 255, .6);
+  opacity: 0;
+  z-index: 2;
+  animation: igDito 11s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+/* onda del tocco */
+.ig-dito::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  opacity: 0;
+  animation: igOnda 11s linear infinite;
+}
+
+@keyframes igScorri {
+  0%, 8%     { transform: translateY(0); }
+  30%, 42%   { transform: translateY(-35%); }
+  56%, 100%  { transform: translateY(0); }
+}
+
+@keyframes igDito {
+  0%, 54%    { opacity: 0; transform: translate(34px, 46px) scale(1.1); }
+  61%        { opacity: 1; transform: translate(0, 0) scale(1); }
+  65%        { opacity: 1; transform: translate(0, 0) scale(.72); }
+  70%, 86%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  93%, 100%  { opacity: 0; transform: translate(34px, 46px) scale(1.1); }
+}
+
+@keyframes igOnda {
+  0%, 64%   { opacity: 0; transform: scale(.6); }
+  66%       { opacity: .6; transform: scale(.9); }
+  74%, 100% { opacity: 0; transform: scale(1.9); }
+}
+
+@keyframes igStatoA {
+  0%, 66%    { opacity: 1; }
+  69%, 87%   { opacity: 0; }
+  91%, 100%  { opacity: 1; }
+}
+@keyframes igStatoB {
+  0%, 66%    { opacity: 0; }
+  69%, 87%   { opacity: 1; }
+  91%, 100%  { opacity: 0; }
+}
+
+/* Con "riduci animazioni" resta la schermata ferma sul profilo */
+@media (prefers-reduced-motion: reduce) {
+  .ig-scroll,
+  .ig-dito,
+  .ig-dito::after,
+  .ig-btn-a,
+  .ig-btn-b { animation: none; }
+  .ig-dito { opacity: 0; }
+}
+
+@media (max-width: 991.98px) {
+  .ig-telefono { width: min(280px, 76%); }
+}
 
 /* =============================================
-   CONTATTI
+   8. CONTATTI
    ============================================= */
 .contact-pills {
   display: flex;
@@ -563,6 +1130,11 @@
   flex: 1 1 260px;
   max-width: 340px;
   min-height: 74px;
+  transition: box-shadow var(--ease-out), transform var(--ease-out);
+}
+.contact-pill:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
 }
 .contact-label {
   font-size: .65rem;
@@ -581,16 +1153,41 @@
 }
 .contact-pill a:hover { color: var(--gold-dark); }
 
+.social-row {
+  display: flex;
+  justify-content: center;
+  gap: .75rem;
+  margin-top: 1.75rem;
+}
+.social-row a {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  color: var(--navy);
+  background: var(--white);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: background var(--ease), color var(--ease),
+              border-color var(--ease), transform var(--ease-out);
+}
+.social-row a:hover {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--gold);
+  transform: translateY(-3px);
+}
+
 /* =============================================
    CALENDLY A SCOMPARSA
-   Chiuso di default (zero spazio bianco): si apre
-   con il bottone e l'altezza segue il contenuto.
+   Chiuso di default (zero spazio bianco): si apre quando
+   l'app dentro l'iframe è davvero renderizzata.
    ============================================= */
 .calendly-embed-wrap { text-align: center; }
 
-/* Chiuso e invisibile finché l'app di Calendly non è RENDERIZZATA.
-   L'iframe dentro ha comunque 700px reali (ritagliati da overflow):
-   così l'app si avvia correttamente anche mentre non si vede. */
 .calendly-inline-widget {
   position: relative;
   min-width: 320px;
@@ -598,7 +1195,7 @@
   width: 100%;
   height: 0;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: var(--radius);
   transition: height .5s ease;
 }
 .calendly-inline-widget iframe { height: 700px !important; }
@@ -606,7 +1203,8 @@
 .calendly-inline-widget.is-ready iframe { height: 100% !important; }
 
 /* Lo spinner a puntini di Calendly (fuori dall'iframe) mai visibile */
-.calendly-spinner, .calendly-spinner * {
+.calendly-spinner,
+.calendly-spinner * {
   display: none !important;
   visibility: hidden !important;
 }
@@ -614,13 +1212,22 @@
 /* =============================================
    RESPONSIVE HOME
    ============================================= */
+
 @media (max-width: 767.98px) {
-  .hero { min-height: 78vh; min-height: 78svh; }
-  .stat-block { border-left: none; border-top: 1px solid rgba(255,255,255,.08); padding: 1.25rem 1rem; }
+  /* Niente padding-top sull'hero: il video deve partire dal bordo
+     superiore e scorrere sotto la navbar trasparente. Quel padding
+     era rimasto dall'impaginazione precedente e creava una fascia
+     blu fra la barra e il video. */
+  .stat-block {
+    border-left: none;
+    border-top: 1px solid var(--hairline);
+    padding: 1.25rem 1rem;
+  }
   .stat-block:first-child { border-top: none; }
+
   .ebook-book-showcase-img { width: 180px; }
-  .hero-actions .btn { flex: 1 1 auto; text-align: center; }
   .contact-pill { flex: 1 1 100%; max-width: 420px; }
   .about-badges { gap: .45rem; }
   .testimonial-card { padding: 1.6rem; }
+
 }

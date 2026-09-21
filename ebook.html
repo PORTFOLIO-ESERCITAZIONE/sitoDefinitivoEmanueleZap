@@ -1,48 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Ebook Store | Emanuele Zappalà</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/store.css">
+  <meta name="description" content="Guide scientifiche in formato digitale: protocolli reali, testati nella pratica clinica." />
+  <meta name="author" content="Emanuele Zappalà" />
+  <meta name="theme-color" content="#1a2744" />
+  
+  
+  <link rel="canonical" href="ebook.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:url" content="https://TUO-DOMINIO.it/ebook.html" />
+  <meta property="og:title" content="Ebook Store | Emanuele Zappalà" />
+  <meta property="og:description" content="Guide scientifiche in formato digitale: protocolli reali, testati nella pratica clinica." />
+  <meta property="og:image" content="https://TUO-DOMINIO.it/img/photo_1.img.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/base.css?v=20260921e" />
+    <link rel="stylesheet" href="css/store.css?v=20260921e" />
+
+  
+  <script>document.documentElement.className += " js-anim";</script>
+
+  
+  <script type="application/ld+json">
+    {
+    "<?php $__contextArgs = [];\nif (context()->has($__contextArgs[0])) :\nif (isset($value)) { $__contextPrevious[] = $value; }\n$value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
+    "@type": "Person",
+    "name": "Emanuele Zappalà",
+    "jobTitle": "Biologo Nutrizionista",
+    "description": "Biologo specializzato in nutrizione umana: riequilibrio metabolico, intestinale e ormonale.",
+    "email": "emanuelezpnutrition@gmail.com",
+    "url": "https://TUO-DOMINIO.it",
+    "sameAs": [
+        "https://www.instagram.com/emanuelezap?igsh=cXkzcjR1ZDFlbzEx",
+        "https://www.youtube.com/@Emanuelezap"
+    ]
+}
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 
-  <nav class="navbar navbar-expand-lg sticky-top shadow-lg" id="mainNav">
-    <div class="container-md">
-      <a class="navbar-brand" href="index.html">
-        <span class="brand-name">E. Zappalà</span>
-        <span class="brand-subtitle">Biologo Nutrizionista</span>
-      </a>
+  <nav class="navbar navbar-expand-lg sticky-top" id="mainNav">
+  <div class="container-md">
+    <a class="navbar-brand" href="index.html">
+      <span class="brand-name">E. Zappalà</span>
+      <span class="brand-subtitle">Biologo Nutrizionista</span>
+    </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStore" aria-controls="navbarStore" aria-expanded="false" aria-label="Apri menu">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-      </button>
+    <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-label="Apri il menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarStore">
-        <ul class="navbar-nav navbar-nav-center">
-          <li class="nav-item"><a class="nav-link" href="index.html#chi-sono">Chi sono</a></li>
-          <li class="nav-item"><a class="nav-link active" href="#">Store</a></li>
-          <li class="nav-item"><a class="nav-link" href="index.html#metodo">Il mio metodo</a></li>
-          <li class="nav-item"><a class="nav-link" href="index.html#risultati">Risultati reali</a></li>
-          <li class="nav-item"><a class="nav-link" href="index.html#pazienti">I miei clienti</a></li>
-          <li class="nav-item"><a class="nav-link" href="index.html#contatti">Contatti</a></li>
-          <li class="nav-item ms-2">
-            <a href="index.html#contatti" class="btn btn-gold btn-sm" style="font-size:0.8rem; padding:0.35rem 0.9rem;">Consulenza</a>
-          </li>
-        </ul>
+    <div class="offcanvas offcanvas-end nav-offcanvas" tabindex="-1" id="navbarMain" aria-labelledby="navbarMainLabel">
+      <div class="offcanvas-header">
+        <span class="offcanvas-title" id="navbarMainLabel">Menu</span>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Chiudi il menu"></button>
+      </div>
+
+      <div class="offcanvas-body">
+        <ul class="navbar-nav mx-auto mb-0" id="navList">
+                      <li class="nav-item"><a class="nav-link" href="index.html#chi-sono">Chi sono</a></li>
+
+            
+                          <li class="nav-item">
+                <a class="nav-link  active " href="ebook.html">Store</a>
+              </li>
+                                  <li class="nav-item"><a class="nav-link" href="index.html#metodo">Il mio metodo</a></li>
+
+            
+                                  <li class="nav-item"><a class="nav-link" href="index.html#risultati">Risultati reali</a></li>
+
+            
+                                  <li class="nav-item"><a class="nav-link" href="index.html#pazienti">I miei clienti</a></li>
+
+            
+                                  <li class="nav-item"><a class="nav-link" href="index.html#contatti">Contatti</a></li>
+
+            
+                              </ul>
+
+        <div class="nav-cta">
+          <a href="index.html#contatti" class="btn btn-gold btn-sm">Consulenza</a>
+        </div>
+
+        <div class="nav-social d-lg-none">
+          <a href="https://www.instagram.com/emanuelezap?igsh=cXkzcjR1ZDFlbzEx" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="https://www.youtube.com/@Emanuelezap" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          <a href="mailto:emanuelezpnutrition@gmail.com" aria-label="Email"><i class="bi bi-envelope"></i></a>
+        </div>
       </div>
     </div>
-  </nav>
+  </div>
 
-  <section class="store-hero">
+  <span class="nav-progress" id="navProgress" aria-hidden="true"></span>
+</nav>
+
+    <section class="store-hero" id="contenuto">
     <div class="container">
       <div class="row align-items-center g-5">
 
@@ -133,34 +198,83 @@
     </div>
   </section>
 
-  <footer class="site-footer py-4">
-    <div class="container">
-      <div class="row align-items-center g-3">
-        <div class="col-md-4 text-center text-md-start">
-          <span class="footer-brand d-block fw-bold text-white">E. Zappalà</span>
-          <a class="navbar-brand" href="index.html">
-            <span class="brand-subtitle">Biologo Nutrizionista</span>
-          </a>
-        </div>
-        <div class="col-md-4 text-center">
-          <p class="footer-copy mb-0 footer-link small">
-            &copy; 2026 Emanuele Zappalà.<br>Tutti i diritti riservati.
-          </p>
-        </div>
-        <div class="col-md-4 text-center text-md-end">
-          <div class="footer-links">
-            <a href="index.html" class="footer-link d-inline-block me-3">Home</a>
-            <a href="privacy.html" class="footer-link d-inline-block me-3">Privacy Policy</a>
-            <a href="cookie-policy.html" class="footer-link d-inline-block">Cookie Policy</a>
-          </div>
-        </div>
+  <footer class="site-footer">
+  <div class="container">
+    <div class="row align-items-center gy-3">
+      <div class="col-md-4">
+        <span class="footer-brand">E. Zappalà</span>
+        <span class="footer-subtitle">Biologo Nutrizionista</span>
+      </div>
+
+      <div class="col-md-4 text-center">
+        <p class="footer-copy">
+          &copy; 2026 Emanuele Zappalà. Tutti i diritti riservati.<br />
+          C.F. e P.I. 06185380877
+        </p>
+      </div>
+
+      <div class="col-md-4 text-md-end">
+        <a href="cgv.html" class="footer-link">Condizioni di Vendita</a>
+        <a href="privacy.html" class="footer-link ms-3">Privacy Policy</a>
+        <a href="cookie-policy.html" class="footer-link ms-3">Cookie Policy</a>
       </div>
     </div>
-  </footer>
+  </div>
+</footer>
+  <div id="cookieBanner" class="cookie-banner" style="display:none;" role="dialog" aria-live="polite" aria-label="Consenso cookie">
+  <div class="cookie-banner-inner">
+    <div class="cookie-banner-text">
+      <strong class="cookie-banner-title">Questo sito utilizza i cookie</strong>
+      <p>Utilizziamo cookie tecnici necessari al funzionamento e, previo consenso, cookie di profilazione. Consulta la <a href="cookie-policy.html" class="cookie-link">Cookie Policy</a> e la <a href="privacy.html" class="cookie-link">Privacy Policy</a>.</p>
+    </div>
+    <div class="cookie-banner-actions">
+      <button id="cookieCustomize" class="btn-cookie-eq">Personalizza</button>
+      <button id="cookieReject"    class="btn-cookie-eq">Rifiuta</button>
+      <button id="cookieAccept"    class="btn-cookie-eq">Accetta</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content cookie-modal-content">
+      <div class="modal-header cookie-modal-header">
+        <h5 class="modal-title cookie-modal-title" id="cookieModalLabel">Preferenze cookie</h5>
+      </div>
+      <div class="modal-body cookie-modal-body">
+        <p class="cookie-modal-intro">I cookie tecnici e analitici (GA4 anonimizzato) sono sempre attivi. Puoi attivare o disattivare i cookie di profilazione.</p>
+        <div class="cookie-pref-row">
+          <div class="cookie-pref-info">
+            <span class="cookie-pref-name">Cookie Tecnici &amp; Analitici</span>
+            <span class="cookie-pref-desc">Necessari per navigazione, sicurezza e statistiche anonime.</span>
+          </div>
+          <span class="cookie-always-on">Sempre attivi</span>
+        </div>
+        <div class="cookie-pref-row">
+          <div class="cookie-pref-info">
+            <span class="cookie-pref-name">Cookie di Profilazione</span>
+            <span class="cookie-pref-desc">Annunci personalizzati (es. Meta Pixel, Google Ads). Disattivati di default.</span>
+          </div>
+          <label class="cookie-toggle" aria-label="Attiva cookie di profilazione">
+            <input type="checkbox" id="toggleProfiling">
+            <span class="cookie-toggle-track"><span class="cookie-toggle-thumb"></span></span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer cookie-modal-footer">
+        <button type="button" id="cookieModalReject" class="btn-cookie-modal-eq">Rifiuta tutto</button>
+        <button type="button" id="cookieSavePrefs"   class="btn-cookie-modal-eq">Salva preferenze</button>
+        <button type="button" id="cookieModalAccept" class="btn-cookie-modal-eq">Accetta tutto</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/store.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="js/main.js?v=20260921e"></script>
+  <script src="js/cookie.js?v=20260921e"></script>
+    <script src="js/store.js?v=20260921e"></script>
 </body>
 </html>

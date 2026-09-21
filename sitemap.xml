@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ✏️ Sostituisci TUO-DOMINIO.it con il dominio reale del sito -->
-<!-- Poi vai su search.google.com/search-console → Sitemap → incolla l'URL completo (es. https://TUO-DOMINIO.it/sitemap.xml) -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://TUO-DOMINIO.it/</loc>
-    <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://TUO-DOMINIO.it/ebook.html</loc>
-    <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

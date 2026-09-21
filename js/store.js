@@ -1,6 +1,6 @@
 /* ==============================================================
    STORE.JS — Rendering ebook da JSON + animazioni store
-   (il cursore custom e le altre interazioni sono in main.js)
+   (navbar, animazioni e interazioni comuni sono in main.js)
    ============================================================== */
 
 class Ebook {
@@ -83,7 +83,7 @@ class Store {
 }
 
 function initStore() {
-  new Store("store-container", "./data/ebook.json").fetchEbooks();
+  new Store("store-container", "data/ebook.json").fetchEbooks();
 
   // Info bar: appare quando entra in viewport
   const infoBar = document.getElementById("storeInfoBar");
